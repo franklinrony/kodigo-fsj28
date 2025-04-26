@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contáctanos en Siman. Envíanos tus consultas, comentarios o sugerencias a través de nuestro formulario de contacto.">
+    <title>Contacto - Siman</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="assets/images/logo-siman.webp" alt="Logo de Siman">
+            </div>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="promociones.html">Promociones</a></li>
+                <li><a href="contacto.html" class="active">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="contacto">
+            <h2>Contáctanos</h2>
+            <form>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre" required>
+                
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" placeholder="Ingresa tu correo electrónico" required>
+                
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" placeholder="Escribe tu mensaje aquí" required></textarea>
+                
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Siman El Salvador. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
