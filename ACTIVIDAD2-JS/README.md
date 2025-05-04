@@ -87,4 +87,4 @@ Este proyecto está preparado para integrarse con GitHub Actions para ejecutar p
 
 ## Autor ✍️
 
-Desarrollado por Franklin Rony Cortez Barrera (https://github.com/franklinrony/).
+Desarrollado por Franklin Rony Cortez Barrera (https://github.com/franklinrony/) 04/05/2025.

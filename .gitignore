@@ -1,2 +1,8 @@
 # Ignorar directorios node_modules en cualquier nivel
 node_modules/
+
+# Ignorar archivos de miniaturas de Windows
+Thumbs.db
+
+# Ignorar configuraciones específicas de Visual Studio Code
+.vscode/
