@@ -1,5 +1,5 @@
 const { esNotaValida, calcularPromedio } = require("../script");
-
+//pruebas de la actividad 3
 describe("Funciones de validación y cálculo", () => {
     test("debería validar correctamente las notas", () => {
         expect(esNotaValida(8)).toBe(true);
