@@ -1,0 +1,14 @@
+{
+  "name": "actividad2-js",
+  "version": "1.0.0",
+  "description": "Actividad 2 - JavaScript",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "jest",
+    "start": "http-server -c-1 -o"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "http-server": "^14.1.1"
+  }
+}
