@@ -1,5 +1,3 @@
-// Aquí puedes agregar las funciones principales que deseas implementar.
-
 /**
  * EJERCICIO 1: Determina si una persona es mayor de edad en base a su edad.
  * @param {number} edad - La edad de la persona.
