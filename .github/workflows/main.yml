@@ -14,7 +14,7 @@ on:
 
 jobs:
   test:
-    if: github.event_name == 'push' && contains(github.event.commits.*.modified, 'ACTIVIDAD2-JS/') || github.event_name == 'pull_request' && contains(github.event.pull_request.changed_files.*, 'ACTIVIDAD2-JS/')
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
