@@ -33,10 +33,22 @@ Aquí se mencionarán algunas de las tecnologías y herramientas que utilizo con
 
 * Bases de Datos:
     * ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
+* Pruebas:
+    * ![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)
 * Otras Herramientas:
     * ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white)
     * ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
     * ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat&logo=github-actions&logoColor=white)
     * ![Git Extensions](https://img.shields.io/badge/Git%20Extensions-314151?style=flat&logo=git-extensions&logoColor=white)
+
+## 📂 Proyectos Actuales
+
+Aquí encontrarás un resumen de los proyectos en los que estoy trabajando actualmente:
+
+### 🌐 [Siman Landing Page](https://franklinrony.github.io/kodigo-fsj28/siman-landingpage/)
+Un proyecto de diseño y desarrollo de una landing page para Siman, utilizando tecnologías frontend como HTML5, CSS3 y JavaScript. Este proyecto se enfoca en la creación de una interfaz atractiva y funcional con diseño adaptable.
+
+### 🛠️ [Actividad 2 - JavaScript](https://franklinrony.github.io/kodigo-fsj28/ACTIVIDAD2-JS)
+Un proyecto práctico para reforzar habilidades en JavaScript, incluyendo manipulación del DOM, eventos y lógica de programación. Este proyecto demuestra el uso de JavaScript para crear interactividad en aplicaciones web.
 
 
