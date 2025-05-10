@@ -17,7 +17,7 @@ Puedes acceder al proyecto en el siguiente enlace:
 
 1. Clona este repositorio en tu máquina local:
    ```bash
-   git clone https://github.com/<TU-USUARIO-GITHUB>/kodigo-fsj28.git
+   git clone https://github.com/franklinrony/kodigo-fsj28.git
    ```
 2. Navega a la carpeta del proyecto:
    ```bash
