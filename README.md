@@ -51,4 +51,7 @@ Un proyecto de diseño y desarrollo de una landing page para Siman, utilizando t
 ### 🛠️ [Actividad 2 - JavaScript](https://franklinrony.github.io/kodigo-fsj28/ACTIVIDAD2-JS)
 Un proyecto práctico para reforzar habilidades en JavaScript, incluyendo manipulación del DOM, eventos y lógica de programación. Este proyecto demuestra el uso de JavaScript para crear interactividad en aplicaciones web.
 
+### 🧪 [Actividad 3 - Manipulación del DOM](https://franklinrony.github.io/kodigo-fsj28/actividad3-pagina-dom)
+Un proyecto enfocado en la manipulación avanzada del DOM utilizando JavaScript. En esta actividad, se implementaron funcionalidades dinámicas como creación y modificación de elementos, manejo de eventos, y actualización del contenido de la página en tiempo real. Este proyecto refuerza habilidades clave para el desarrollo frontend interactivo.
+
 
