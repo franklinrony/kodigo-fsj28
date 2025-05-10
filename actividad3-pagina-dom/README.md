@@ -11,7 +11,7 @@ Este proyecto consiste en una página web interactiva que utiliza manipulación 
 ## 🌐 GitHub Pages
 
 Puedes acceder al proyecto en el siguiente enlace:  
-[GitHub Pages - Actividad 3](https://<TU-USUARIO-GITHUB>.github.io/kodigo-fsj28/actividad3-pagina-dom/)
+[GitHub Pages - Actividad 3](https://franklinrony.github.io/kodigo-fsj28/actividad3-pagina-dom/)
 
 ## 🚀 Cómo ejecutar el proyecto
 
