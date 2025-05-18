@@ -68,7 +68,7 @@ Además, la aplicación es **responsive**, adaptándose automáticamente a difer
 
 ## 👥 Integrantes (6)
 
-- Nombre 1
+- Franklin Rony Cortez Barrera (k20250003)
 - Nombre 2
 - Nombre 3
 - Nombre 4

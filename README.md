@@ -54,4 +54,7 @@ Un proyecto práctico para reforzar habilidades en JavaScript, incluyendo manipu
 ### 🧪 [Actividad 3 - Manipulación del DOM](https://franklinrony.github.io/kodigo-fsj28/actividad3-pagina-dom)
 Un proyecto enfocado en la manipulación avanzada del DOM utilizando JavaScript. En esta actividad, se implementaron funcionalidades dinámicas como creación y modificación de elementos, manejo de eventos, y actualización del contenido de la página en tiempo real. Este proyecto refuerza habilidades clave para el desarrollo frontend interactivo.
 
+### 📝 [Actividad 4 - Quiz App](https://franklinrony.github.io/kodigo-fsj28/quiz-app/)
+Una aplicación interactiva de preguntas y respuestas (quiz) sobre HTML, CSS y JavaScript. Permite seleccionar la categoría, responder preguntas de opción múltiple, ver el progreso en tiempo real y obtener resultados detallados al finalizar. Este proyecto refuerza habilidades de lógica, manipulación del DOM y almacenamiento local en el navegador.
+
 
