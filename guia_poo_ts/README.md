@@ -20,7 +20,7 @@ Todos los resultados se visualizan en la consola del navegador.
 
 1. **Clona el repositorio**
    ```bash
-   git clone <url-del-repo>
+   git clone https://github.com/franklinrony/kodigo-fsj28.git
    cd guia_poo_ts
    ```
 2. **Instala las dependencias**
