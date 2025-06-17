@@ -6,3 +6,5 @@ Thumbs.db
 
 # Ignorar configuraciones específicas de Visual Studio Code
 .vscode/
+
+.bolt/
