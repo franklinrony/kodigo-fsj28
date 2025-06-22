@@ -2,10 +2,14 @@
 
 ¡Bienvenido a **Kodigo Music**! Una aplicación web para disfrutar de millones de canciones, descubrir nueva música, crear listas de reproducción y vivir la mejor experiencia musical.
 
+![Captura del Proyecto](captura.png)
+
 ---
 
 ## 🚀 Descripción
 Este proyecto es parte de la tarea del **Bootcamp Fullstack JR Edición 28 de Kodigo**. Permite a los usuarios explorar música, gestionar su biblioteca y personalizar su experiencia musical.
+
+El proyecto fue desplegado utilizando **Netlify** para asegurar un rendimiento óptimo y una entrega continua.
 
 ---
 

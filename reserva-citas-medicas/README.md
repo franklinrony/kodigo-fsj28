@@ -32,6 +32,7 @@ Este proyecto fue construido con un stack de tecnologías modernas y eficientes:
 -   **Tailwind CSS:** Para un diseño de interfaz de usuario moderno y personalizable.
 -   **Lucide React:** Para los íconos.
 -   **jsPDF:** Para la generación de documentos PDF.
+-   **Netlify:** Para el despliegue y la entrega continua de la aplicación.
 
 ---
 
@@ -45,4 +46,4 @@ Este proyecto fue construido con un stack de tecnologías modernas y eficientes:
 
 Puedes ver una demostración en vivo del proyecto en el siguiente enlace:
 
-[Ver Demo de MediCitas](https://citas-medicas-kodigo.web.app) 
+[Ver Demo de MediCitas](https://reserva-citas-medicas-kodigo.netlify.app) 
