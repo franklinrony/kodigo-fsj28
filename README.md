@@ -57,4 +57,10 @@ Un proyecto enfocado en la manipulación avanzada del DOM utilizando JavaScript.
 ### 📝 [Actividad 4 - Quiz App](https://franklinrony.github.io/kodigo-fsj28/quiz-app/)
 Una aplicación interactiva de preguntas y respuestas (quiz) sobre HTML, CSS y JavaScript. Permite seleccionar la categoría, responder preguntas de opción múltiple, ver el progreso en tiempo real y obtener resultados detallados al finalizar. Este proyecto refuerza habilidades de lógica, manipulación del DOM y almacenamiento local en el navegador.
 
+### 🚀 [Actividad 5 - Kodigo Music](https://kodigo-music-fsj28.netlify.app/)
+Una Single Page Application (SPA) creada en React para explorar y disfrutar de música. Este proyecto, desarrollado con React, TypeScript y TailwindCSS, permite a los usuarios descubrir canciones, crear listas de reproducción y gestionar su biblioteca musical, demostrando habilidades en el desarrollo de interfaces modernas e interactivas.
+
+### 🩺 [Actividad 6 - Reserva de Citas Médicas](https://citas-medicas-kodigo.web.app/)
+Un sistema completo para la gestión de citas médicas llamado "MediCitas". La aplicación permite a los pacientes agendar, reprogramar o cancelar citas, mientras que los doctores pueden gestionar su agenda y documentar el historial clínico. El proyecto utiliza React, TypeScript, Firebase para la base de datos en tiempo real y jsPDF para generar recetas en PDF.
+
 
