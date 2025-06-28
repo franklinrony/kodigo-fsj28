@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           {/* Footer */}
           <div className="mt-auto pt-4 border-t border-white/10">
             <p className="text-xs text-gray-400 text-center">
-              © 2025 Kodigo Music
+              © {new Date().getFullYear()} Kodigo Music. Hecho por Franklin Rony Cortez Barrera
             </p>
           </div>
         </div>
