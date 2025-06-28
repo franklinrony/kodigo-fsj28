@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Edit, Camera, Save, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 interface ProfileForm {
-  nombre: string;
+  displayName: string;
   email: string;
   fechaNacimiento: string;
   generoFavorito: string;
@@ -11,27 +12,42 @@ interface ProfileForm {
 }
 
 const Perfil: React.FC = () => {
+  const { currentUser, userProfile, updateUserProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<ProfileForm>({
-    nombre: 'Juan Pérez',
-    email: 'juan.perez@email.com',
-    fechaNacimiento: '1990-01-01',
+    displayName: '',
+    email: '',
+    fechaNacimiento: '',
     generoFavorito: 'rock',
-    biografia: 'Amante de la música desde siempre. Disfruto de todos los géneros pero tengo una preferencia especial por el rock clásico.',
-    ubicacion: 'San Salvador, El Salvador'
+    biografia: '',
+    ubicacion: ''
   });
   
   const [errors, setErrors] = useState<Partial<ProfileForm>>({});
-  const [avatarUrl, setAvatarUrl] = useState('https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400');
+  const [loading, setLoading] = useState(false);
+
+  // Cargar datos del usuario al montar el componente
+  useEffect(() => {
+    if (currentUser && userProfile) {
+      setFormData({
+        displayName: userProfile.displayName || currentUser.displayName || '',
+        email: currentUser.email || '',
+        fechaNacimiento: userProfile.fechaNacimiento || '',
+        generoFavorito: userProfile.generoFavorito || 'rock',
+        biografia: userProfile.biografia || '',
+        ubicacion: userProfile.ubicacion || ''
+      });
+    }
+  }, [currentUser, userProfile]);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<ProfileForm> = {};
 
     // Validación de nombre
-    if (!formData.nombre.trim()) {
-      newErrors.nombre = 'El nombre es requerido';
-    } else if (formData.nombre.trim().length < 2) {
-      newErrors.nombre = 'El nombre debe tener at least 2 caracteres';
+    if (!formData.displayName.trim()) {
+      newErrors.displayName = 'El nombre es requerido';
+    } else if (formData.displayName.trim().length < 2) {
+      newErrors.displayName = 'El nombre debe tener al menos 2 caracteres';
     }
 
     // Validación de email
@@ -43,9 +59,7 @@ const Perfil: React.FC = () => {
     }
 
     // Validación de fecha de nacimiento
-    if (!formData.fechaNacimiento) {
-      newErrors.fechaNacimiento = 'La fecha de nacimiento es requerida';
-    } else {
+    if (formData.fechaNacimiento) {
       const birthDate = new Date(formData.fechaNacimiento);
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
@@ -65,11 +79,6 @@ const Perfil: React.FC = () => {
       newErrors.biografia = 'La biografía no puede exceder 500 caracteres';
     }
 
-    // Validación de ubicación
-    if (!formData.ubicacion.trim()) {
-      newErrors.ubicacion = 'La ubicación es requerida';
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -84,23 +93,53 @@ const Perfil: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (validateForm()) {
-      // Aquí iría la lógica para guardar el perfil
-      console.log('Perfil guardado:', formData);
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      await updateUserProfile({
+        displayName: formData.displayName,
+        fechaNacimiento: formData.fechaNacimiento,
+        generoFavorito: formData.generoFavorito,
+        biografia: formData.biografia,
+        ubicacion: formData.ubicacion
+      });
+      // Actualizar el estado local con los nuevos datos
+      setFormData(prev => ({
+        ...prev,
+        displayName: formData.displayName,
+        fechaNacimiento: formData.fechaNacimiento,
+        generoFavorito: formData.generoFavorito,
+        biografia: formData.biografia,
+        ubicacion: formData.ubicacion
+      }));
       setIsEditing(false);
-      
-      // Mostrar mensaje de éxito (en una implementación real, usar un toast o similar)
       alert('Perfil actualizado exitosamente');
+    } catch (error) {
+      console.error('Error al actualizar perfil:', error);
+      alert('Error al actualizar el perfil');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setErrors({});
-    // Restaurar datos originales si es necesario
+    // Restaurar datos originales
+    if (currentUser && userProfile) {
+      setFormData({
+        displayName: userProfile.displayName || currentUser.displayName || '',
+        email: currentUser.email || '',
+        fechaNacimiento: '',
+        generoFavorito: 'rock',
+        biografia: '',
+        ubicacion: ''
+      });
+    }
   };
 
   const generos = [
@@ -121,6 +160,14 @@ const Perfil: React.FC = () => {
     { label: 'Horas Totales', value: '342' },
   ];
 
+  if (!currentUser) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-400">Cargando perfil...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-24">
       {/* Header */}
@@ -128,11 +175,17 @@ const Perfil: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
           {/* Avatar */}
           <div className="relative">
-            <img 
-              src={avatarUrl} 
-              alt="Avatar"
-              className="w-32 h-32 rounded-full object-cover border-4 border-white/20"
-            />
+            {currentUser.photoURL ? (
+              <img 
+                src={currentUser.photoURL} 
+                alt="Avatar"
+                className="w-32 h-32 rounded-full object-cover border-4 border-white/20"
+              />
+            ) : (
+              <div className="w-32 h-32 bg-purple-600 rounded-full flex items-center justify-center border-4 border-white/20">
+                <User size={48} className="text-white" />
+              </div>
+            )}
             {isEditing && (
               <button className="absolute bottom-0 right-0 bg-purple-600 p-2 rounded-full hover:bg-purple-700 transition-colors">
                 <Camera size={16} className="text-white" />
@@ -142,10 +195,12 @@ const Perfil: React.FC = () => {
 
           {/* Profile Info */}
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl font-bold text-white mb-2">{formData.nombre}</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              {formData.displayName || 'Usuario'}
+            </h1>
             <p className="text-gray-300 mb-4">{formData.email}</p>
             <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-gray-400">
-              <span>📍 {formData.ubicacion}</span>
+              {formData.ubicacion && <span>📍 {formData.ubicacion}</span>}
               <span>🎵 {generos.find(g => g.value === formData.generoFavorito)?.label}</span>
             </div>
           </div>
@@ -186,10 +241,11 @@ const Perfil: React.FC = () => {
               </button>
               <button
                 onClick={handleSubmit}
-                className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                disabled={loading}
+                className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
               >
                 <Save size={16} />
-                <span>Guardar</span>
+                <span>{loading ? 'Guardando...' : 'Guardar'}</span>
               </button>
             </div>
           )}
@@ -204,18 +260,18 @@ const Perfil: React.FC = () => {
               </label>
               <input
                 type="text"
-                name="nombre"
-                value={formData.nombre}
+                name="displayName"
+                value={formData.displayName}
                 onChange={handleInputChange}
                 disabled={!isEditing}
                 className={`w-full px-4 py-3 bg-white/10 border rounded-lg text-white placeholder-gray-400 
                            focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all
                            ${!isEditing ? 'cursor-not-allowed opacity-70' : ''}
-                           ${errors.nombre ? 'border-red-500' : 'border-white/20'}`}
+                           ${errors.displayName ? 'border-red-500' : 'border-white/20'}`}
                 placeholder="Ingresa tu nombre completo"
               />
-              {errors.nombre && (
-                <p className="mt-1 text-sm text-red-400">{errors.nombre}</p>
+              {errors.displayName && (
+                <p className="mt-1 text-sm text-red-400">{errors.displayName}</p>
               )}
             </div>
 
@@ -229,22 +285,18 @@ const Perfil: React.FC = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                disabled={!isEditing}
-                className={`w-full px-4 py-3 bg-white/10 border rounded-lg text-white placeholder-gray-400 
-                           focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all
-                           ${!isEditing ? 'cursor-not-allowed opacity-70' : ''}
-                           ${errors.email ? 'border-red-500' : 'border-white/20'}`}
+                disabled={true} // Email no se puede cambiar
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 
+                           cursor-not-allowed opacity-70"
                 placeholder="tu@email.com"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-400">{errors.email}</p>
-              )}
+              <p className="mt-1 text-xs text-gray-500">El email no se puede modificar</p>
             </div>
 
             {/* Fecha de Nacimiento */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Fecha de Nacimiento *
+                Fecha de Nacimiento
               </label>
               <input
                 type="date"
@@ -277,7 +329,6 @@ const Perfil: React.FC = () => {
                            ${!isEditing ? 'cursor-not-allowed opacity-70' : ''}
                            ${errors.generoFavorito ? 'border-red-500' : 'border-white/20'}`}
               >
-                <option value="">Selecciona un género</option>
                 {generos.map((genero) => (
                   <option key={genero.value} value={genero.value} className="bg-slate-800">
                     {genero.label}
@@ -293,7 +344,7 @@ const Perfil: React.FC = () => {
           {/* Ubicación */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Ubicación *
+              Ubicación
             </label>
             <input
               type="text"
@@ -350,9 +401,10 @@ const Perfil: React.FC = () => {
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors"
+                disabled={loading}
+                className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
               >
-                Guardar
+                {loading ? 'Guardando...' : 'Guardar'}
               </button>
             </div>
           )}

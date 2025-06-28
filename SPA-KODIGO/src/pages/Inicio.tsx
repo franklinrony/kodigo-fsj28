@@ -104,7 +104,6 @@ const Inicio: React.FC = () => {
         </h1>
         <p className="text-lg text-gray-300 mb-6 max-w-2xl">
           Descubre tu nueva música favorita. Explora millones de canciones, crea listas de reproducción y disfruta de la mejor calidad de audio.
-          Vibra con la mejor música mientras codificas.
         </p>
         <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-200">
           Explorar Ahora
