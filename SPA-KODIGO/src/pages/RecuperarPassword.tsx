@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Mail } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const RecuperarPassword: React.FC = () => {
   const { resetPassword } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -49,12 +51,12 @@ const RecuperarPassword: React.FC = () => {
             <p className="text-gray-400 text-sm mt-2">
               Si ingresaste un correo válido, recibirás un correo para recuperar tu contraseña en unos minutos. Revisa también tu carpeta de spam.
             </p>
-            <a
-              href="/login"
+            <button
+              onClick={() => navigate('/')}
               className="inline-block mt-4 text-purple-400 hover:text-purple-200 underline transition-colors"
             >
               Volver al login
-            </a>
+            </button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
