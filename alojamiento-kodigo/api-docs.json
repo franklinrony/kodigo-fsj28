@@ -1,0 +1,591 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel V11 Bookings API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/V1/accomodations": {
+            "get": {
+                "tags": [
+                    "Accomodations"
+                ],
+                "summary": "Get all accomodations",
+                "operationId": "eb2d1f4eac8cd35be60ee3c32004ad45",
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of properties"
+                    },
+                    "400": {
+                        "description": "No accomodations at the moment"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/accomodation/{id}": {
+            "get": {
+                "tags": [
+                    "Accomodations"
+                ],
+                "summary": "Find a accomodation by ID",
+                "operationId": "0d51ff9fe6a7a302181712822c17fce7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of accomodation"
+                    },
+                    "400": {
+                        "description": "Accomodation not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Accomodations"
+                ],
+                "summary": "Update an existing accomodation",
+                "operationId": "a983defdca5f7a2a84695c6e1b117f75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "address",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated"
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/accomodation": {
+            "post": {
+                "tags": [
+                    "Accomodations"
+                ],
+                "summary": "Store a new accomodation",
+                "operationId": "7c52494bdac445ec5a03fd30a5d9fdbd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "address",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully registered"
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/bookings": {
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Get all bookings",
+                "operationId": "bc6f3fe0aba8f7fe213ed43d0763337b",
+                "responses": {
+                    "200": {
+                        "description": "Bookings found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID of the booking",
+                                                "type": "integer"
+                                            },
+                                            "user": {
+                                                "description": "Name of the user",
+                                                "type": "string"
+                                            },
+                                            "accomodation": {
+                                                "description": "Name of the accomodation",
+                                                "type": "string"
+                                            },
+                                            "check_in_date": {
+                                                "description": "Check-in date",
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "check_out_date": {
+                                                "description": "Check-out date",
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "total_amount": {
+                                                "description": "Total amount",
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "status": {
+                                                "description": "Status of the booking",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No bookings found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/status_booking/{id}": {
+            "patch": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Update the status of a booking",
+                "operationId": "3ac0bf408b70ead0eeb9c9266fd5d7fc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "example": "CANCELLED"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status successfully updated"
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/booking": {
+            "post": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Register a new booking",
+                "operationId": "d65b637526ae9b685c8af577acfe1015",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "booking",
+                                    "check_in_date",
+                                    "check_out_date",
+                                    "total_amount",
+                                    "accomodation_id",
+                                    "user_id"
+                                ],
+                                "properties": {
+                                    "booking": {
+                                        "type": "string",
+                                        "maxLength": 10,
+                                        "example": "BK123456"
+                                    },
+                                    "check_in_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-10"
+                                    },
+                                    "check_out_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-12-15"
+                                    },
+                                    "total_amount": {
+                                        "type": "number",
+                                        "example": 500
+                                    },
+                                    "accomodation_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successfully registered"
+                    },
+                    "400": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/bookings/calendar/{id_accomodation}": {
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Get accommodation bookings calendar",
+                "operationId": "7421e864e497f982fd57fb8d1dc7ea70",
+                "parameters": [
+                    {
+                        "name": "id_accomodation",
+                        "in": "path",
+                        "description": "ID of the accommodation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Start date in Y-m-d format",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-10"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "End date in Y-m-d format",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-15"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Bookings found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID of the booking",
+                                                "type": "integer"
+                                            },
+                                            "user": {
+                                                "description": "Name of the user",
+                                                "type": "string"
+                                            },
+                                            "accomodation": {
+                                                "description": "Name of the accomodation",
+                                                "type": "string"
+                                            },
+                                            "check_in_date": {
+                                                "description": "Check-in date",
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "check_out_date": {
+                                                "description": "Check-out date",
+                                                "type": "string",
+                                                "format": "date"
+                                            },
+                                            "total_amount": {
+                                                "description": "Total amount",
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "status": {
+                                                "description": "Status of the booking",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No bookings found"
+                    },
+                    "422": {
+                        "description": "The date range cannot exceed 3 months"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/V1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "operationId": "d8a637ffd86b190b24fd11ac295eb68e",
+                "responses": {
+                    "200": {
+                        "description": "List of Users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Abner"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "user@example.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "hashed_password"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/V1/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login",
+                "operationId": "888df9f42ef83350b02de91a19847ccb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "string",
+                                            "example": "user@example.com"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "token123"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are not authorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter the token returned at login",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Accomodations",
+            "description": "Accommodations API Endpoints"
+        },
+        {
+            "name": "Bookings",
+            "description": "Bookings API Endpoints"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
