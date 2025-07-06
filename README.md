@@ -63,4 +63,7 @@ Una Single Page Application (SPA) creada en React para explorar y disfrutar de m
 ### 🩺 [Actividad 6 - Reserva de Citas Médicas](https://reserva-citas-medicas-kodigo.netlify.app/)
 Un sistema completo para la gestión de citas médicas llamado "MediCitas", desplegado en Netlify. La aplicación permite a los pacientes agendar, reprogramar o cancelar citas, mientras que los doctores pueden gestionar su agenda y documentar el historial clínico. El proyecto utiliza React, TypeScript y Firebase.
 
+### 🏨 [Actividad 7 - API de Reservaciones de Alojamientos](https://kodigo-api-reservaciones.netlify.app/accommodations)
+Una aplicación web que expone una API para la gestión de reservaciones de alojamientos. Permite consultar, crear y administrar alojamientos disponibles, facilitando la integración con otros sistemas o frontends. El proyecto está enfocado en el desarrollo backend y la exposición de endpoints RESTful, reforzando habilidades en diseño de APIs y manejo de datos.
+
 
