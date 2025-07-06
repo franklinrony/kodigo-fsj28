@@ -1,16 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Filter, Plus } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { getReservations } from '../../services/BookingsService';
+import { getAccommodations } from '../../services/AccommodationsService';
 import Modal from '../Common/Modal';
 import ReservationForm from '../Reservations/ReservationForm';
+import { Reservation, Accommodation } from '../../types';
 
 const ReservationCalendar: React.FC = () => {
-  const { reservations, accommodations } = useApp();
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedAccommodation, setSelectedAccommodation] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [searchGuest, setSearchGuest] = useState('');
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+
+  useEffect(() => {
+    getReservations().then(setReservations);
+    getAccommodations().then(setAccommodations);
+  }, []);
 
   const monthNames = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',

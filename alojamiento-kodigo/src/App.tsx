@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import { AppProvider } from './context/AppContext';
+import { AuthProvider, useAuth } from './services/AuthService';
 import Layout from './components/Layout/Layout';
 import LoginForm from './components/Auth/LoginForm';
 import Dashboard from './pages/Dashboard';
 import AccommodationList from './components/Accommodations/AccommodationList';
 import ReservationList from './components/Reservations/ReservationList';
 import ReservationCalendar from './components/Calendar/ReservationCalendar';
+import ReservationsByDate from './components/Reservations/ReservationsByDate';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isLoading } = useAuth();
@@ -29,26 +29,25 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 function App() {
   return (
     <AuthProvider>
-      <AppProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<LoginForm />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Layout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Dashboard />} />
-              <Route path="accommodations" element={<AccommodationList />} />
-              <Route path="reservations" element={<ReservationList />} />
-              <Route path="calendar" element={<ReservationCalendar />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="accommodations" element={<AccommodationList />} />
+            <Route path="reservations" element={<ReservationList />} />
+            <Route path="calendar" element={<ReservationCalendar />} />
+            <Route path="reservations-by-date" element={<ReservationsByDate />} />
+          </Route>
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }

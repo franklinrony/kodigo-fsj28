@@ -1,16 +1,17 @@
 import React from 'react';
 import { Calendar, User, MapPin, Moon } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { cancelReservation, updateReservationStatus } from '../../services/BookingsService';
 import { Reservation } from '../../types';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 interface ReservationDetailsProps {
   reservation: Reservation;
   onClose: () => void;
+  onStatusChange?: () => void;
 }
 
-const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservation, onClose }) => {
-  const { cancelReservation } = useApp();
-
+const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservation, onClose, onStatusChange }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'confirmed':
@@ -43,11 +44,21 @@ const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservation, on
     return Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
   };
 
-  const handleCancel = () => {
-    if (window.confirm('¿Estás seguro de que quieres cancelar esta reservación?')) {
-      cancelReservation(reservation.id);
-      onClose();
+  const handleStatusChange = async (newStatus: 'CANCELLED' | 'CONFIRMED') => {
+    if (newStatus === 'CANCELLED') {
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Esta acción cancelará la reservación.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'No, volver',
+      });
+      if (!result.isConfirmed) return;
     }
+    await updateReservationStatus(reservation.id, newStatus);
+    if (onStatusChange) onStatusChange();
+    onClose();
   };
 
   return (
@@ -63,10 +74,6 @@ const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservation, on
         <h3 className="text-lg font-medium text-gray-800 mb-4">
           {reservation.accommodationName || 'Sin nombre'}
         </h3>
-        <div className="flex items-center text-gray-600 text-sm mb-2">
-          <MapPin className="w-4 h-4 mr-2" />
-          Dirección no disponible
-        </div>
       </div>
 
       <div className="bg-gray-50 p-4 rounded-lg">
@@ -119,15 +126,23 @@ const ReservationDetails: React.FC<ReservationDetailsProps> = ({ reservation, on
         </div>
       </div>
 
-      <div className="flex justify-between items-center pt-6 border-t">
-        {reservation.status !== 'cancelled' && (
-          <button
-            onClick={handleCancel}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors flex items-center space-x-2"
-          >
-            <span>Cancelar Reservación</span>
-          </button>
-        )}
+      <div className="flex items-center gap-3 pt-6 border-t">
+        <button
+          onClick={() => handleStatusChange('CANCELLED')}
+          className={`px-4 py-2 rounded-md flex items-center space-x-2 transition-colors ${reservation.status === 'cancelled' ? 'bg-red-300 text-white cursor-not-allowed' : 'bg-red-600 text-white hover:bg-red-700'}`}
+          disabled={reservation.status === 'cancelled'}
+          title="Cancelar reservación"
+        >
+          <span>Cancelar</span>
+        </button>
+        <button
+          onClick={() => handleStatusChange('CONFIRMED')}
+          className={`px-4 py-2 rounded-md flex items-center space-x-2 transition-colors ${reservation.status === 'confirmed' ? 'bg-green-300 text-white cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+          disabled={reservation.status === 'confirmed'}
+          title="Confirmar reservación"
+        >
+          <span>Confirmar</span>
+        </button>
         <button
           onClick={onClose}
           className="ml-auto px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"

@@ -5,19 +5,20 @@ export interface User {
 }
 
 export interface Accommodation {
-  id: string;
+  id: number;
   name: string;
   address: string;
   description: string;
-  pricePerNight: number;
-  capacity: number;
-  amenities: string[];
+  image: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Reservation {
   id: string;
   accommodationId: string;
   accommodationName: string;
+  address?: string;
   guestName: string;
   guestEmail: string;
   checkIn: string;
@@ -25,6 +26,7 @@ export interface Reservation {
   status: 'confirmed' | 'pending' | 'cancelled';
   totalAmount: number;
   guests: number;
+  user_id?: string;
 }
 
 export interface CalendarEvent {

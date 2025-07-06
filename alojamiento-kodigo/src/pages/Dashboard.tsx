@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building, Calendar, Users, TrendingUp } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+import { getAccommodations } from '../services/AccommodationsService';
+import { getReservations } from '../services/BookingsService';
+import { Accommodation, Reservation } from '../types';
 
 const Dashboard: React.FC = () => {
-  const { accommodations, reservations } = useApp();
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAccommodations().then(setAccommodations);
+    getReservations().then(setReservations);
+  }, []);
 
   const stats = {
     totalAccommodations: accommodations.length,

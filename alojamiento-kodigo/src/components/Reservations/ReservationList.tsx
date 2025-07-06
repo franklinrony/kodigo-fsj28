@@ -1,37 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Calendar, Eye, X } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { getReservations } from '../../services/BookingsService';
 import Modal from '../Common/Modal';
 import ReservationForm from './ReservationForm';
 import ReservationDetails from './ReservationDetails';
 import { Reservation } from '../../types';
+import Spinner from '../Common/Spinner';
 
 const ReservationList: React.FC = () => {
-  const { reservations } = useApp();
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    getReservations().then(res => {
+      setReservations(res);
+      setLoading(false);
+    });
+  }, []);
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
+    switch (status.toUpperCase()) {
+      case 'CONFIRMED':
+        return 'bg-green-100 text-green-800 border border-green-300';
+      case 'CANCELLED':
+        return 'bg-red-100 text-red-800 border border-red-300';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 border border-gray-300';
     }
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed':
+    switch (status.toUpperCase()) {
+      case 'CONFIRMED':
         return 'Confirmada';
-      case 'pending':
-        return 'Pendiente';
-      case 'cancelled':
+      case 'CANCELLED':
         return 'Cancelada';
       default:
         return status;
@@ -41,6 +47,21 @@ const ReservationList: React.FC = () => {
   const handleViewDetails = (reservation: Reservation) => {
     setSelectedReservation(reservation);
     setIsDetailsModalOpen(true);
+  };
+
+  const handleStatusChange = async () => {
+    setLoading(true);
+    const updated = await getReservations();
+    setReservations(updated);
+    setLoading(false);
+  };
+
+  const handleCreated = async () => {
+    setLoading(true);
+    const updated = await getReservations();
+    setReservations(updated);
+    setLoading(false);
+    setIsFormModalOpen(false);
   };
 
   return (
@@ -56,76 +77,80 @@ const ReservationList: React.FC = () => {
         </button>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Huésped
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Alojamiento
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fechas
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Estado
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {reservations.map((reservation) => (
-                <tr key={reservation.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">
-                        {reservation.guestName}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {reservation.guestEmail}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {reservation.accommodationName}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                      {new Date(reservation.checkIn).toLocaleDateString()} - {new Date(reservation.checkOut).toLocaleDateString()}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(reservation.status)}`}>
-                      {getStatusText(reservation.status)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    ${reservation.totalAmount}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleViewDetails(reservation)}
-                      className="text-blue-600 hover:text-blue-800 flex items-center space-x-1"
-                    >
-                      <Eye className="w-4 h-4" />
-                      <span>Ver detalles</span>
-                    </button>
-                  </td>
+      {loading ? (
+        <Spinner className="my-10" />
+      ) : (
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Huésped
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Alojamiento
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Fechas
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Total
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {reservations.map((reservation) => (
+                  <tr key={reservation.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {reservation.guestName}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {reservation.guestEmail}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {reservation.accommodationName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-2 text-gray-400" />
+                        {new Date(reservation.checkIn).toLocaleDateString()} - {new Date(reservation.checkOut).toLocaleDateString()}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(reservation.status)}`}>
+                        {getStatusText(reservation.status)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      ${reservation.totalAmount}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <button
+                        onClick={() => handleViewDetails(reservation)}
+                        className="text-blue-600 hover:text-blue-800 flex items-center space-x-1"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>Ver detalles</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
 
       <Modal
         isOpen={isFormModalOpen}
@@ -133,7 +158,7 @@ const ReservationList: React.FC = () => {
         title="Nueva Reservación"
         size="lg"
       >
-        <ReservationForm onClose={() => setIsFormModalOpen(false)} />
+        <ReservationForm onClose={() => setIsFormModalOpen(false)} onCreated={handleCreated} />
       </Modal>
 
       <Modal
@@ -146,6 +171,7 @@ const ReservationList: React.FC = () => {
           <ReservationDetails
             reservation={selectedReservation}
             onClose={() => setIsDetailsModalOpen(false)}
+            onStatusChange={handleStatusChange}
           />
         )}
       </Modal>

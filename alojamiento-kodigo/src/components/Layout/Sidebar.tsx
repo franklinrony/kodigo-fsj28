@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Home, Building, Calendar, LogOut, Menu, X } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../services/AuthService';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,7 +20,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const menuItems = [
     { icon: Home, label: 'Panel de Control', path: '/' },
     { icon: Building, label: 'Alojamientos', path: '/accommodations' },
-    { icon: Calendar, label: 'Reservaciones', path: '/reservations' }
+    { icon: Calendar, label: 'Reservaciones', path: '/reservations' },
+    { icon: Calendar, label: 'Ver reservaciones por fechas', path: '/reservations-by-date' }
   ];
 
   return (

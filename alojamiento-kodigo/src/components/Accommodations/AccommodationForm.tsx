@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useApp } from '../../context/AppContext';
+import { addAccommodation, updateAccommodation } from '../../services/AccommodationsService';
+import { setLoading } from '../../services/LoadingService';
 import { Accommodation } from '../../types';
+import { uploadImageToCloudinary } from '../../services/CloudinaryService';
 
 interface AccommodationFormProps {
   accommodation: Accommodation | null;
   onClose: () => void;
 }
 
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_API_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
+const CLOUDINARY_API_SECRET = import.meta.env.VITE_CLOUDINARY_API_SECRET;
+
 const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, onClose }) => {
-  const { addAccommodation, updateAccommodation } = useApp();
   const [formData, setFormData] = useState({
     name: '',
     address: '',
     description: '',
-    pricePerNight: 0,
-    capacity: 1,
-    amenities: [] as string[]
+    image: ''
   });
 
-  const [newAmenity, setNewAmenity] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (accommodation) {
@@ -26,52 +29,46 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
         name: accommodation.name,
         address: accommodation.address,
         description: accommodation.description,
-        pricePerNight: accommodation.pricePerNight,
-        capacity: accommodation.capacity,
-        amenities: [...accommodation.amenities]
+        image: accommodation.image
       });
     }
   }, [accommodation]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setLoading(true);
     if (accommodation) {
-      updateAccommodation(accommodation.id, formData);
+      await updateAccommodation(accommodation.id, formData);
     } else {
-      addAccommodation(formData);
+      await addAccommodation(formData);
     }
-    
+    setLoading(false);
     onClose();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'number' ? parseFloat(value) || 0 : value
+      [name]: value
     }));
   };
 
-  const addAmenity = () => {
-    if (newAmenity.trim() && !formData.amenities.includes(newAmenity.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        amenities: [...prev.amenities, newAmenity.trim()]
-      }));
-      setNewAmenity('');
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadImageToCloudinary(file);
+      setFormData(prev => ({ ...prev, image: url }));
+    } catch (err) {
+      alert('Error subiendo la imagen');
     }
-  };
-
-  const removeAmenity = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      amenities: prev.amenities.filter((_, i) => i !== index)
-    }));
+    setUploading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className={`space-y-6${uploading ? ' pointer-events-none' : ''}`} style={{ opacity: uploading ? 0.5 : 1 }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -86,7 +83,6 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
             required
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Dirección
@@ -100,39 +96,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
             required
           />
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Precio por Noche ($)
-          </label>
-          <input
-            type="number"
-            name="pricePerNight"
-            value={formData.pricePerNight}
-            onChange={handleInputChange}
-            min="0"
-            step="0.01"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Capacidad (personas)
-          </label>
-          <input
-            type="number"
-            name="capacity"
-            value={formData.capacity}
-            onChange={handleInputChange}
-            min="1"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Descripción
@@ -146,47 +110,28 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
           required
         />
       </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Amenidades
+          Imagen (URL)
         </label>
-        <div className="flex space-x-2 mb-3">
-          <input
-            type="text"
-            value={newAmenity}
-            onChange={(e) => setNewAmenity(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAmenity())}
-            placeholder="Agregar amenidad"
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-          <button
-            type="button"
-            onClick={addAmenity}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Agregar
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {formData.amenities.map((amenity, index) => (
-            <span
-              key={index}
-              className="inline-flex items-center bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full"
-            >
-              {amenity}
-              <button
-                type="button"
-                onClick={() => removeAmenity(index)}
-                className="ml-2 text-gray-500 hover:text-red-600"
-              >
-                ×
-              </button>
-            </span>
-          ))}
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+        {uploading && (
+          <div className="fixed inset-0 bg-white bg-opacity-70 flex items-center justify-center z-50">
+            <div className="text-center">
+              <div className="mb-4"><span className="loader spinner-border animate-spin inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full"></span></div>
+              <div className="text-blue-600 text-lg font-semibold">Subiendo imagen...</div>
+            </div>
+          </div>
+        )}
+        {formData.image && (
+          <img src={formData.image} alt="Vista previa" className="w-full h-32 object-cover rounded mt-2" />
+        )}
       </div>
-
       <div className="flex justify-end space-x-3 pt-6 border-t">
         <button
           type="button"

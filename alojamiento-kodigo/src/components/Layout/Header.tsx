@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../services/AuthService';
 
 interface HeaderProps {
   onMenuToggle: () => void;

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '../types';
 import { API_BASE_URL } from '../main';
+import axios from '../interceptor/httpInterceptor';
 
 interface AuthContextType {
   user: User | null;
@@ -9,10 +10,10 @@ interface AuthContextType {
   isLoading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthService = React.createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthService);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
@@ -39,18 +40,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/V1/login`, {
-        method: 'POST',
+      const response = await axios.post(`${API_BASE_URL}/api/V1/login`, { email, password }, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+        }
       });
-      if (!response.ok) {
-        setIsLoading(false);
-        return false;
-      }
-      const data = await response.json();
+      const data = response.data;
       // data: { user: string, token: string }
       const userData = {
         id: data.user, // No hay id en la respuesta, se usa el email como id
@@ -76,8 +71,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthService.Provider value={{ user, login, logout, isLoading }}>
       {children}
-    </AuthContext.Provider>
+    </AuthService.Provider>
   );
 };
