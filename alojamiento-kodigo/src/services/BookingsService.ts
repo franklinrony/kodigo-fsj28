@@ -91,8 +91,8 @@ export const getReservationsByCalendar = async (accommodationId: string, startDa
       user_id: item.user_id ? String(item.user_id) : ''
     }));
   } catch (error: any) {
-    if (error.response && error.response.status === 422 && error.response.data?.message?.includes('3 months')) {
-      throw new Error('El rango de fechas no puede exceder 3 meses.');
+    if (error.response && error.response.status === 422 && error.response.data?.error?.includes('3 months')) {
+      throw new Error('El rango de fechas seleccionado no puede exceder 3 meses. Intente con otro rango de fechas');
     }
     return [];
   }

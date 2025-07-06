@@ -13,6 +13,8 @@ const ReservationList: React.FC = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reservationsPerPage = 10;
 
   useEffect(() => {
     setLoading(true);
@@ -64,6 +66,12 @@ const ReservationList: React.FC = () => {
     setIsFormModalOpen(false);
   };
 
+  const totalPages = Math.ceil(reservations.length / reservationsPerPage);
+  const paginatedReservations = reservations.slice(
+    (currentPage - 1) * reservationsPerPage,
+    currentPage * reservationsPerPage
+  );
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -81,7 +89,7 @@ const ReservationList: React.FC = () => {
         <Spinner className="my-10" />
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -106,7 +114,7 @@ const ReservationList: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {reservations.map((reservation) => (
+                {paginatedReservations.map((reservation) => (
                   <tr key={reservation.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
@@ -149,6 +157,53 @@ const ReservationList: React.FC = () => {
               </tbody>
             </table>
           </div>
+          <div className="md:hidden space-y-4 p-2">
+            {paginatedReservations.map((reservation) => (
+              <div key={reservation.id} className="bg-gray-50 rounded-lg shadow p-4 flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm font-medium text-gray-900">{reservation.guestName}</div>
+                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(reservation.status)}`}>
+                    {getStatusText(reservation.status)}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-500 mb-1">{reservation.guestEmail}</div>
+                <div className="text-sm text-gray-900 font-semibold">{reservation.accommodationName}</div>
+                <div className="flex items-center text-xs text-gray-700">
+                  <Calendar className="w-4 h-4 mr-1 text-gray-400" />
+                  {new Date(reservation.checkIn).toLocaleDateString()} - {new Date(reservation.checkOut).toLocaleDateString()}
+                </div>
+                <div className="text-sm text-gray-900">Total: <span className="font-bold">${reservation.totalAmount}</span></div>
+                <div className="flex justify-end mt-2">
+                  <button
+                    onClick={() => handleViewDetails(reservation)}
+                    className="text-blue-600 hover:text-blue-800 flex items-center space-x-1 text-sm"
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>Ver detalles</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center my-4 space-x-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+              >
+                Anterior
+              </button>
+              <span className="mx-2">Página {currentPage} de {totalPages}</span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+              >
+                Siguiente
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -157,6 +212,7 @@ const ReservationList: React.FC = () => {
         onClose={() => setIsFormModalOpen(false)}
         title="Nueva Reservación"
         size="lg"
+        loading={loading}
       >
         <ReservationForm onClose={() => setIsFormModalOpen(false)} onCreated={handleCreated} />
       </Modal>
@@ -166,6 +222,7 @@ const ReservationList: React.FC = () => {
         onClose={() => setIsDetailsModalOpen(false)}
         title="Detalles de la Reservación"
         size="md"
+        loading={loading}
       >
         {selectedReservation && (
           <ReservationDetails

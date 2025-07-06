@@ -3,17 +3,19 @@ import { addAccommodation, updateAccommodation } from '../../services/Accommodat
 import { setLoading } from '../../services/LoadingService';
 import { Accommodation } from '../../types';
 import { uploadImageToCloudinary } from '../../services/CloudinaryService';
+import Spinner from '../Common/Spinner';
 
 interface AccommodationFormProps {
   accommodation: Accommodation | null;
   onClose: () => void;
+  loading: boolean;
 }
 
 const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const CLOUDINARY_API_KEY = import.meta.env.VITE_CLOUDINARY_API_KEY;
 const CLOUDINARY_API_SECRET = import.meta.env.VITE_CLOUDINARY_API_SECRET;
 
-const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, onClose }) => {
+const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, onClose, loading }) => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -68,7 +70,12 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-6${uploading ? ' pointer-events-none' : ''}`} style={{ opacity: uploading ? 0.5 : 1 }}>
+    <form onSubmit={handleSubmit} className={`space-y-6 relative${uploading ? ' pointer-events-none' : ''}`} style={{ opacity: uploading ? 0.5 : 1 }}>
+      {loading && (
+        <div className="absolute inset-0 bg-white bg-opacity-80 z-30 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -137,12 +144,14 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({ accommodation, on
           type="button"
           onClick={onClose}
           className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+          disabled={loading}
         >
           Cancelar
         </button>
         <button
           type="submit"
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+          disabled={loading}
         >
           {accommodation ? 'Actualizar' : 'Guardar'}
         </button>

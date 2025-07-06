@@ -3,6 +3,7 @@ import { getAccommodations } from '../../services/AccommodationsService';
 import { addReservation, BookingPayload } from '../../services/BookingsService';
 import { Accommodation } from '../../types';
 import { useAuth } from '../../services/AuthService';
+import Spinner from '../Common/Spinner';
 
 interface ReservationFormProps {
   onClose: () => void;
@@ -12,16 +13,27 @@ interface ReservationFormProps {
 const ReservationForm: React.FC<ReservationFormProps> = ({ onClose, onCreated }) => {
   const { user } = useAuth();
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    accommodationId: string;
+    guestName: string;
+    guestEmail: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    totalAmount: number;
+    status: 'confirmed' | 'cancelled';
+  }>({
     accommodationId: '',
     guestName: user?.name || '',
     guestEmail: user?.email || '',
     checkIn: '',
     checkOut: '',
     guests: 1,
-    totalAmount: 0
+    totalAmount: 0,
+    status: 'confirmed',
   });
   const [errors, setErrors] = useState<{checkIn?: string; checkOut?: string}>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getAccommodations().then(setAccommodations);
@@ -44,17 +56,21 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onClose, onCreated })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateDates()) return;
+    setLoading(true);
     const accommodation = accommodations.find(acc => acc.id === Number(formData.accommodationId));
-    if (!accommodation) return;
+    if (!accommodation) { setLoading(false); return; }
+    const userIdNumber = user && !isNaN(Number(user.id)) ? Number(user.id) : undefined;
     const payload: BookingPayload = {
       checkIn: formData.checkIn,
       checkOut: formData.checkOut,
       totalAmount: formData.totalAmount,
-      status: 'confirmed',
+      status: formData.status,
       accommodationId: formData.accommodationId,
       guests: formData.guests,
+      user_id: userIdNumber
     };
     await addReservation(payload);
+    setLoading(false);
     if (onCreated) onCreated();
     else onClose();
   };
@@ -68,7 +84,12 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onClose, onCreated })
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 relative">
+      {loading && (
+        <div className="absolute inset-0 bg-white bg-opacity-80 z-20 flex items-center justify-center">
+          <Spinner />
+        </div>
+      )}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Alojamiento
@@ -183,17 +204,35 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ onClose, onCreated })
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Estado de la reservación
+        </label>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleInputChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          required
+        >
+          <option value="confirmed">Confirmada</option>
+          <option value="cancelled">Cancelada</option>
+        </select>
+      </div>
+
       <div className="flex justify-end space-x-3 pt-6 border-t">
         <button
           type="button"
           onClick={onClose}
           className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+          disabled={loading}
         >
           Cancelar
         </button>
         <button
           type="submit"
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+          disabled={loading}
         >
           Guardar
         </button>

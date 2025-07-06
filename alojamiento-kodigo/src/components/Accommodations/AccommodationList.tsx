@@ -143,10 +143,12 @@ const AccommodationList: React.FC = () => {
         onClose={() => closeModal(false)}
         title={editingAccommodation ? 'Editar Alojamiento' : 'Nuevo Alojamiento'}
         size="lg"
+        loading={loading}
       >
         <AccommodationForm
           accommodation={editingAccommodation}
           onClose={() => closeModal(true)}
+          loading={loading}
         />
       </Modal>
 
