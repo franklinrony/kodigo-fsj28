@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User } from '../types';
 import { API_BASE_URL } from '../main';
 import axios from '../interceptor/httpInterceptor';
+import { getUsers } from './UsersService';
 
 interface AuthContextType {
   user: User | null;
@@ -46,9 +47,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
       });
       const data = response.data;
-      // data: { user: string, token: string }
-      const userData = {
-        id: data.user, // No hay id en la respuesta, se usa el email como id
+      // Buscar el usuario real por email
+      const users = await getUsers();
+      const matchedUser = users.find((u: any) => u.email === data.user);
+      const userData = matchedUser ? {
+        id: matchedUser.id,
+        email: matchedUser.email,
+        name: matchedUser.name,
+        token: data.token,
+      } : {
+        id: data.user,
         email: data.user,
         name: data.user.split('@')[0],
         token: data.token,

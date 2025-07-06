@@ -1,0 +1,30 @@
+name: Node.js CI ACTIVIDAD2-JS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ACTIVIDAD2-JS/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'ACTIVIDAD2-JS/**'
+
+jobs:
+  test:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+      - name: Navegar al directorio del proyecto
+        working-directory: ./ACTIVIDAD2-JS
+        run: npm install
+      - name: Ejecutar pruebas
+        working-directory: ./ACTIVIDAD2-JS
+        run: npm test

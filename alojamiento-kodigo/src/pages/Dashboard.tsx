@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
     totalAccommodations: accommodations.length,
     totalReservations: reservations.length,
     confirmedReservations: reservations.filter(r => r.status === 'confirmed').length,
-    pendingReservations: reservations.filter(r => r.status === 'pending').length,
+    cancelledReservations: reservations.filter(r => r.status === 'cancelled').length,
   };
 
   const recentReservations = reservations
@@ -102,8 +102,8 @@ const Dashboard: React.FC = () => {
               <TrendingUp className="w-6 h-6 text-purple-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Pendientes</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.pendingReservations}</p>
+              <p className="text-sm font-medium text-gray-600">Canceladas</p>
+              <p className="text-2xl font-bold text-gray-900">{stats.cancelledReservations}</p>
             </div>
           </div>
         </div>
@@ -126,10 +126,6 @@ const Dashboard: React.FC = () => {
                 <div>
                   <p className="font-medium text-gray-900">{accommodation.name}</p>
                   <p className="text-sm text-gray-600">{accommodation.address}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-medium text-gray-900">${accommodation.pricePerNight}</p>
-                  <p className="text-sm text-gray-600">por noche</p>
                 </div>
               </div>
             ))}

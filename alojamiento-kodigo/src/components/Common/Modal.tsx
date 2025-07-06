@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { X } from 'lucide-react';
+import Spinner from './Spinner';
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,6 +8,7 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  loading?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({ 
@@ -14,7 +16,8 @@ const Modal: React.FC<ModalProps> = ({
   onClose, 
   title, 
   children, 
-  size = 'md' 
+  size = 'md',
+  loading = false
 }) => {
   if (!isOpen) return null;
 
@@ -37,9 +40,14 @@ const Modal: React.FC<ModalProps> = ({
         
         <div className={`
           inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl 
-          transform transition-all sm:my-8 sm:align-middle w-full ${sizeClasses[size]}
+          transform transition-all sm:my-8 sm:align-middle w-full ${sizeClasses[size]} relative
         `}>
-          <div className="bg-white px-6 pt-6 pb-4">
+          {loading && (
+            <div className="absolute inset-0 bg-white bg-opacity-80 z-50 flex items-center justify-center cursor-wait">
+              <Spinner />
+            </div>
+          )}
+          <div className={`bg-white px-6 pt-6 pb-4 ${loading ? 'pointer-events-none select-none opacity-60' : ''}`}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">
                 {title}
@@ -47,6 +55,7 @@ const Modal: React.FC<ModalProps> = ({
               <button
                 onClick={onClose}
                 className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
               >
                 <X className="h-6 w-6" />
               </button>
