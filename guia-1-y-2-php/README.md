@@ -2,10 +2,7 @@
 
 Este proyecto implementa los ejercicios de la Parte 1 y Parte 2 utilizando PHP moderno con programación funcional y una interfaz gráfica moderna.
 
-## 🌐 Demo en Vivo
 
-**¡Prueba la aplicación en línea!**
-- 🔗 **[Demo en Netlify](https://php-fsj28-kodigo.netlify.app)**
 - 🌙 **Tema oscuro/claro** incluido
 - 📱 **Diseño responsive** para todos los dispositivos
 - ⚡ **Interfaz moderna** con Bootstrap 5
