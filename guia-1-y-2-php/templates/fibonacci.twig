@@ -1,0 +1,138 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary">
+                <i class="fas fa-infinity me-3"></i>
+                Serie Fibonacci
+            </h1>
+            <p class="lead text-muted">
+                Genera los primeros n términos de la serie Fibonacci
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> Escribe una función llamada <code>generarFibonacci</code> que reciba un número n como parámetro y genere los primeros n términos de la serie Fibonacci.
+                </p>
+                <p class="mb-0">
+                    <strong>Definición:</strong> La serie comienza con 0 y 1, y cada término subsiguiente es la suma de los dos anteriores.
+                </p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-calculator me-2"></i>
+                    Calculadora Fibonacci
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <div class="col-md-8">
+                        <label for="n" class="form-label">Número de términos (n):</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="n" 
+                               name="n" 
+                               min="1" 
+                               max="50" 
+                               value="{{ input.n|default('10') }}" 
+                               required>
+                        <div class="form-text">Ingresa un número entre 1 y 50</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-play me-2"></i>
+                            Generar Serie
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        {% if resultado %}
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Resultado
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Primeros {{ resultado.n }} términos:</h6>
+                        <div class="bg-light p-3 rounded">
+                            <code class="text-primary">{{ resultado.serie }}</code>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Número de términos:</strong> {{ resultado.n }}</li>
+                            <li><strong>Último término:</strong> {{ resultado.ultimo }}</li>
+                            <li><strong>Suma total:</strong> {{ resultado.suma }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Visualización gráfica -->
+                <div class="mt-4">
+                    <h6 class="text-muted">Visualización:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for i, numero in resultado.numeros %}
+                        <div class="badge bg-primary fs-6 px-3 py-2" 
+                             style="background: linear-gradient(45deg, #667eea, #764ba2) !important;">
+                            F<sub>{{ i }}</sub> = {{ numero }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Ejemplos -->
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Ejemplos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>n = 5</h6>
+                        <p class="text-muted">0, 1, 1, 2, 3</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>n = 8</h6>
+                        <p class="text-muted">0, 1, 1, 2, 3, 5, 8, 13</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>n = 10</h6>
+                        <p class="text-muted">0, 1, 1, 2, 3, 5, 8, 13, 21, 34</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

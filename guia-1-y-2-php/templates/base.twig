@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ title|default('Mi Proyecto PHP') }}{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.95);
+            --text-primary: #333;
+            --text-secondary: #666;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --navbar-bg: rgba(255, 255, 255, 0.95);
+            --border-color: #dee2e6;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-secondary: rgba(30, 30, 30, 0.95);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --card-bg: rgba(40, 40, 40, 0.95);
+            --card-shadow: rgba(0, 0, 0, 0.3);
+            --navbar-bg: rgba(30, 30, 30, 0.95);
+            --border-color: #495057;
+        }
+
+        body {
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            background: var(--navbar-bg) !important;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand, .nav-link {
+            color: var(--text-primary) !important;
+        }
+
+        .main-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px var(--card-shadow);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--card-shadow);
+            transition: transform 0.3s ease, all 0.3s ease;
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-control, .form-select {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: var(--card-bg);
+            border-color: #6f42c1;
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+
+        .btn-purple {
+            background: linear-gradient(45deg, #6f42c1, #e83e8c);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: white;
+        }
+
+        .btn-purple:hover {
+            background: linear-gradient(45deg, #e83e8c, #6f42c1);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .text-purple {
+            color: #6f42c1 !important;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(111, 66, 193, 0.1);
+            transform: scale(1.1);
+        }
+
+        .dropdown-menu {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dropdown-item {
+            color: var(--text-primary);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(111, 66, 193, 0.1);
+            color: var(--text-primary);
+        }
+
+        .dropdown-header {
+            color: var(--text-secondary);
+        }
+
+        .table {
+            color: var(--text-primary);
+        }
+
+        .table th, .table td {
+            border-color: var(--border-color);
+        }
+
+        .alert {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .list-group-item {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .modal-header, .modal-footer {
+            border-color: var(--border-color);
+        }
+    </style>
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-code me-2"></i>Mi Proyecto PHP
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-code me-1"></i>Ejercicios
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Parte 1</h6></li>
+                            <li><a class="dropdown-item" href="/fibonacci">
+                                <i class="fas fa-infinity me-2"></i>Fibonacci
+                            </a></li>
+                            <li><a class="dropdown-item" href="/primos">
+                                <i class="fas fa-hashtag me-2"></i>Números Primos
+                            </a></li>
+                            <li><a class="dropdown-item" href="/palindromos">
+                                <i class="fas fa-mirror me-2"></i>Palíndromos
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Parte 2</h6></li>
+                            <li><a class="dropdown-item" href="/suma-pares">
+                                <i class="fas fa-plus-circle me-2"></i>Suma de Números Pares
+                            </a></li>
+                            <li><a class="dropdown-item" href="/llamadas-internacionales">
+                                <i class="fas fa-phone-alt me-2"></i>Llamadas Internacionales
+                            </a></li>
+                            <li><a class="dropdown-item" href="/fizzbuzz">
+                                <i class="fas fa-gamepad me-2"></i>FizzBuzz
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>Acerca de
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+                            <i class="fas fa-sun" id="themeIcon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="margin-top: 80px;">
+        <div class="main-content p-4">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4 mt-5">
+        <div class="container">
+            <p>&copy; 2025 Tarea FSJ28 PHP. por Franklin Rony Cortez Barrera</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Toggle Script -->
+    <script>
+        // Función para obtener el tema actual
+        function getCurrentTheme() {
+            return localStorage.getItem('theme') || 'light';
+        }
+
+        // Función para aplicar el tema
+        function applyTheme(theme) {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (theme === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+            }
+            
+            localStorage.setItem('theme', theme);
+        }
+
+        // Función para cambiar el tema
+        function toggleTheme() {
+            const currentTheme = getCurrentTheme();
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        }
+
+        // Aplicar tema al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = getCurrentTheme();
+            applyTheme(savedTheme);
+            
+            // Agregar evento al botón de cambio de tema
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+        });
+
+        // Detectar preferencia del sistema
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Solo aplicar si no hay tema guardado
+            if (!localStorage.getItem('theme')) {
+                mediaQuery.addListener(function(e) {
+                    applyTheme(e.matches ? 'dark' : 'light');
+                });
+                
+                // Aplicar tema inicial basado en preferencia del sistema
+                if (mediaQuery.matches) {
+                    applyTheme('dark');
+                }
+            }
+        }
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

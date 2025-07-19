@@ -1,0 +1,209 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-success">
+                <i class="fas fa-hashtag me-3"></i>
+                Números Primos
+            </h1>
+            <p class="lead text-muted">
+                Verifica si un número es primo y encuentra números primos
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> Crea una función llamada <code>esPrimo</code> que determine si un número dado es primo o no.
+                </p>
+                <p class="mb-0">
+                    <strong>Definición:</strong> Un número primo es aquel que solo es divisible por 1 y por sí mismo.
+                </p>
+            </div>
+        </div>
+
+        <!-- Formulario para verificar un número -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-search me-2"></i>
+                    Verificar Número Primo
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="verificar">
+                    <div class="col-md-8">
+                        <label for="numero" class="form-label">Número a verificar:</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="numero" 
+                               name="numero" 
+                               min="1" 
+                               max="1000000" 
+                               value="{{ input.numero|default('') }}" 
+                               required>
+                        <div class="form-text">Ingresa un número positivo</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-check me-2"></i>
+                            Verificar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Formulario para encontrar primos hasta un límite -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Encontrar Números Primos
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="encontrar">
+                    <div class="col-md-8">
+                        <label for="limite" class="form-label">Encontrar primos hasta:</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="limite" 
+                               name="limite" 
+                               min="2" 
+                               max="1000" 
+                               value="{{ input.limite|default('100') }}" 
+                               required>
+                        <div class="form-text">Ingresa un límite entre 2 y 1000</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-info w-100">
+                            <i class="fas fa-search me-2"></i>
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado de verificación -->
+        {% if resultado_verificacion %}
+        <div class="card mb-4">
+            <div class="card-header {% if resultado_verificacion.esPrimo %}bg-success{% else %}bg-danger{% endif %} text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Resultado de Verificación
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Número analizado:</h6>
+                        <div class="display-6 fw-bold text-primary">{{ resultado_verificacion.numero }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Resultado:</h6>
+                        {% if resultado_verificacion.esPrimo %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>¡Es un número primo!</strong>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-times-circle me-2"></i>
+                            <strong>No es un número primo</strong>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% if resultado_verificacion.divisores %}
+                <div class="mt-3">
+                    <h6 class="text-muted">Divisores encontrados:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for divisor in resultado_verificacion.divisores %}
+                        <span class="badge bg-secondary">{{ divisor }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Resultado de búsqueda -->
+        {% if resultado_busqueda %}
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Números Primos Encontrados
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Límite:</h6>
+                        <div class="h5 text-primary">{{ resultado_busqueda.limite }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Cantidad encontrada:</h6>
+                        <div class="h5 text-success">{{ resultado_busqueda.cantidad }}</div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6 class="text-muted">Números primos:</h6>
+                    <div class="bg-light p-3 rounded">
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for primo in resultado_busqueda.primos %}
+                            <span class="badge bg-success">{{ primo }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Información adicional -->
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Información sobre Números Primos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Primeros números primos:</h6>
+                        <p class="text-muted">2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47...</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Características:</h6>
+                        <ul class="text-muted small">
+                            <li>El 2 es el único número primo par</li>
+                            <li>Los números primos son infinitos</li>
+                            <li>Todo número mayor a 1 es primo o producto de primos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

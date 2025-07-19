@@ -1,0 +1,211 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-purple">
+                <i class="fas fa-gamepad me-3"></i>
+                FizzBuzz
+            </h1>
+            <p class="lead text-muted">
+                Genera la secuencia FizzBuzz hasta un número n
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-purple text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> Given an integer <code>n</code>, return a string array <code>answer</code> (1-indexed) where:
+                </p>
+                <ul class="mb-0">
+                    <li><code>answer[i] == "FizzBuzz"</code> if <code>i</code> is divisible by <strong>3</strong> and <strong>5</strong></li>
+                    <li><code>answer[i] == "Fizz"</code> if <code>i</code> is divisible by <strong>3</strong></li>
+                    <li><code>answer[i] == "Buzz"</code> if <code>i</code> is divisible by <strong>5</strong></li>
+                    <li><code>answer[i] == i</code> (as a string) if none of the above conditions are true</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-play me-2"></i>
+                    Generador FizzBuzz
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <div class="col-md-8">
+                        <label for="n" class="form-label">Número hasta donde generar (n):</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="n" 
+                               name="n" 
+                               min="1" 
+                               max="100" 
+                               value="{{ input.n|default('15') }}" 
+                               required>
+                        <div class="form-text">Ingresa un número entre 1 y 100</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-play me-2"></i>
+                            Generar Secuencia
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        {% if resultado %}
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Secuencia FizzBuzz
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Parámetros:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>n:</strong> {{ resultado.n }}</li>
+                            <li><strong>Total de elementos:</strong> {{ resultado.estadisticas.total }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Estadísticas:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Fizz:</strong> {{ resultado.estadisticas.fizz }}</li>
+                            <li><strong>Buzz:</strong> {{ resultado.estadisticas.buzz }}</li>
+                            <li><strong>FizzBuzz:</strong> {{ resultado.estadisticas.fizzbuzz }}</li>
+                            <li><strong>Números:</strong> {{ resultado.estadisticas.numeros }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="text-muted">Secuencia generada:</h6>
+                    <div class="bg-light p-3 rounded">
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for item in resultado.secuencia %}
+                            {% if item == 'FizzBuzz' %}
+                            <span class="badge bg-danger fs-6">{{ item }}</span>
+                            {% elseif item == 'Fizz' %}
+                            <span class="badge bg-warning text-dark fs-6">{{ item }}</span>
+                            {% elseif item == 'Buzz' %}
+                            <span class="badge bg-info fs-6">{{ item }}</span>
+                            {% else %}
+                            <span class="badge bg-secondary fs-6">{{ item }}</span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="text-muted">Desglose por tipo:</h6>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6 class="text-danger">FizzBuzz:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for item in resultado.secuencia %}
+                                {% if item == 'FizzBuzz' %}
+                                <span class="badge bg-danger fs-6">{{ loop.index }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="text-warning">Fizz:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for item in resultado.secuencia %}
+                                {% if item == 'Fizz' %}
+                                <span class="badge bg-warning text-dark fs-6">{{ loop.index }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="text-info">Buzz:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for item in resultado.secuencia %}
+                                {% if item == 'Buzz' %}
+                                <span class="badge bg-info fs-6">{{ loop.index }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="text-secondary">Números:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for item in resultado.secuencia %}
+                                {% if item != 'Fizz' and item != 'Buzz' and item != 'FizzBuzz' %}
+                                <span class="badge bg-secondary fs-6">{{ loop.index }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Ejemplos -->
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Ejemplos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>n = 3:</h6>
+                        <p class="text-muted">["1","2","Fizz"]</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>n = 5:</h6>
+                        <p class="text-muted">["1","2","Fizz","4","Buzz"]</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>n = 15:</h6>
+                        <p class="text-muted">["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]</p>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6>Reglas:</h6>
+                    <ul class="text-muted small">
+                        <li>Si es divisible por 3 y 5 → "FizzBuzz"</li>
+                        <li>Si es divisible por 3 → "Fizz"</li>
+                        <li>Si es divisible por 5 → "Buzz"</li>
+                        <li>En otro caso → el número como string</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-purple {
+    background: linear-gradient(45deg, #6f42c1, #e83e8c) !important;
+}
+</style>
+{% endblock %} 

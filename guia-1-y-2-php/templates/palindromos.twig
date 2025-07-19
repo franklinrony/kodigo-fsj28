@@ -1,0 +1,246 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-info">
+                <i class="fas fa-mirror me-3"></i>
+                Palíndromos
+            </h1>
+            <p class="lead text-muted">
+                Verifica si una palabra o frase es un palíndromo
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> Implementa una función llamada <code>esPalindromo</code> que determine si una cadena de texto dada es un palíndromo.
+                </p>
+                <p class="mb-0">
+                    <strong>Definición:</strong> Un palíndromo es una palabra, frase o secuencia que se lee igual en ambas direcciones (de izquierda a derecha y de derecha a izquierda).
+                </p>
+            </div>
+        </div>
+
+        <!-- Formulario para verificar un palíndromo -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-search me-2"></i>
+                    Verificar Palíndromo
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="verificar">
+                    <div class="col-md-8">
+                        <label for="texto" class="form-label">Texto a verificar:</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="texto" 
+                               name="texto" 
+                               value="{{ input.texto|default('') }}" 
+                               placeholder="Ej: Ana, radar, A man a plan a canal Panama"
+                               required>
+                        <div class="form-text">Ingresa una palabra, frase o texto</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-check me-2"></i>
+                            Verificar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Formulario para verificar múltiples palabras -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>
+                    Verificar Múltiples Palabras
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <input type="hidden" name="action" value="multiple">
+                    <div class="col-md-8">
+                        <label for="palabras" class="form-label">Palabras separadas por comas:</label>
+                        <textarea class="form-control" 
+                                  id="palabras" 
+                                  name="palabras" 
+                                  rows="3" 
+                                  placeholder="ana, radar, oso, casa, level, civic">{{ input.palabras|default('') }}</textarea>
+                        <div class="form-text">Ingresa palabras separadas por comas</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-search me-2"></i>
+                            Analizar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado de verificación individual -->
+        {% if resultado_verificacion %}
+        <div class="card mb-4">
+            <div class="card-header {% if resultado_verificacion.esPalindromo %}bg-success{% else %}bg-danger{% endif %} text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Resultado de Verificación
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Texto original:</h6>
+                        <div class="h5 text-primary">{{ resultado_verificacion.textoOriginal }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Resultado:</h6>
+                        {% if resultado_verificacion.esPalindromo %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>¡Es un palíndromo!</strong>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-times-circle me-2"></i>
+                            <strong>No es un palíndromo</strong>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6 class="text-muted">Texto procesado:</h6>
+                    <div class="bg-light p-3 rounded">
+                        <code class="text-info">{{ resultado_verificacion.textoProcesado }}</code>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6 class="text-muted">Comparación:</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <small class="text-muted">Normal</small>
+                                <div class="h6 text-primary">{{ resultado_verificacion.textoProcesado }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <small class="text-muted">Reverso</small>
+                                <div class="h6 text-info">{{ resultado_verificacion.textoReverso }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Resultado de verificación múltiple -->
+        {% if resultado_multiple %}
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Análisis de Múltiples Palabras
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6 class="text-muted">Total de palabras:</h6>
+                        <div class="h5 text-primary">{{ resultado_multiple.total }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-muted">Palíndromos encontrados:</h6>
+                        <div class="h5 text-success">{{ resultado_multiple.palindromos|length }}</div>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-muted">No palíndromos:</h6>
+                        <div class="h5 text-danger">{{ resultado_multiple.noPalindromos|length }}</div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6 class="text-muted">Palíndromos encontrados:</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        {% for palindromo in resultado_multiple.palindromos %}
+                        <span class="badge bg-success fs-6">{{ palindromo }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <h6 class="text-muted">No son palíndromos:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for noPalindromo in resultado_multiple.noPalindromos %}
+                        <span class="badge bg-secondary fs-6">{{ noPalindromo }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Ejemplos y información -->
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Ejemplos de Palíndromos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Palabras simples:</h6>
+                        <ul class="text-muted">
+                            <li>ana</li>
+                            <li>radar</li>
+                            <li>oso</li>
+                            <li>level</li>
+                            <li>civic</li>
+                            <li>rotor</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Frases famosas:</h6>
+                        <ul class="text-muted">
+                            <li>"A man a plan a canal Panama"</li>
+                            <li>"Madam I'm Adam"</li>
+                            <li>"Race a car"</li>
+                            <li>"Never odd or even"</li>
+                            <li>"Do geese see God?"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <h6>Características:</h6>
+                    <ul class="text-muted small">
+                        <li>Se ignoran espacios, puntuación y mayúsculas</li>
+                        <li>Pueden ser palabras, frases o números</li>
+                        <li>Se leen igual en ambas direcciones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
