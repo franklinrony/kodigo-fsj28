@@ -1,0 +1,23 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mx-auto text-center">
+        <div class="card">
+            <div class="card-body">
+                <i class="fas fa-ban fa-5x text-danger mb-4"></i>
+                <h1 class="display-4 fw-bold text-danger mb-3">405</h1>
+                <h2 class="mb-4">{{ title }}</h2>
+                <p class="lead mb-4">
+                    El método HTTP utilizado no está permitido para esta ruta.
+                </p>
+                <a href="/" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home me-2"></i>Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

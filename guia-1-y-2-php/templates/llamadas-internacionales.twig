@@ -1,0 +1,229 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-danger">
+                <i class="fas fa-phone-alt me-3"></i>
+                Llamadas Internacionales
+            </h1>
+            <p class="lead text-muted">
+                Calcula el costo de llamadas telefónicas internacionales por zona geográfica
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> El costo de las llamadas telefónicas internacionales depende de la zona geográfica y del número de minutos hablados.
+                </p>
+                <p class="mb-0">
+                    <strong>Descuento:</strong> Para llamadas con duración menor a 30 minutos se hace descuento del 10%.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tabla de precios -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-table me-2"></i>
+                    Tabla de Precios por Zona
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Clave</th>
+                                <th>Zona</th>
+                                <th>Precio por Minuto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-primary">12</span></td>
+                                <td>América del Norte</td>
+                                <td class="text-success fw-bold">$2.00</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">15</span></td>
+                                <td>América Central</td>
+                                <td class="text-success fw-bold">$2.20</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">18</span></td>
+                                <td>América del Sur</td>
+                                <td class="text-success fw-bold">$4.50</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">19</span></td>
+                                <td>Europa</td>
+                                <td class="text-success fw-bold">$3.50</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">23</span></td>
+                                <td>Asia</td>
+                                <td class="text-success fw-bold">$6.00</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">25</span></td>
+                                <td>África</td>
+                                <td class="text-success fw-bold">$6.00</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary">29</span></td>
+                                <td>Oceanía</td>
+                                <td class="text-success fw-bold">$5.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-calculator me-2"></i>
+                    Calculadora de Costos
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="clave" class="form-label">Clave de Zona:</label>
+                        <select class="form-select" id="clave" name="clave" required>
+                            <option value="">Selecciona una zona</option>
+                            <option value="12" {% if input.clave == 12 %}selected{% endif %}>12 - América del Norte</option>
+                            <option value="15" {% if input.clave == 15 %}selected{% endif %}>15 - América Central</option>
+                            <option value="18" {% if input.clave == 18 %}selected{% endif %}>18 - América del Sur</option>
+                            <option value="19" {% if input.clave == 19 %}selected{% endif %}>19 - Europa</option>
+                            <option value="23" {% if input.clave == 23 %}selected{% endif %}>23 - Asia</option>
+                            <option value="25" {% if input.clave == 25 %}selected{% endif %}>25 - África</option>
+                            <option value="29" {% if input.clave == 29 %}selected{% endif %}>29 - Oceanía</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="minutos" class="form-label">Duración (minutos):</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="minutos" 
+                               name="minutos" 
+                               min="1" 
+                               max="1000" 
+                               value="{{ input.minutos|default('') }}" 
+                               required>
+                        <div class="form-text">Ingresa la duración en minutos</div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-calculator me-2"></i>
+                            Calcular Costo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        {% if resultado %}
+        <div class="card">
+            <div class="card-header {% if resultado.error %}bg-danger{% else %}bg-success{% endif %} text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-receipt me-2"></i>
+                    Resultado del Cálculo
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if resultado.error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Error:</strong> {{ resultado.error }}
+                </div>
+                {% else %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Información de la Llamada:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Zona:</strong> {{ resultado.zona }}</li>
+                            <li><strong>Clave:</strong> {{ resultado.clave }}</li>
+                            <li><strong>Duración:</strong> {{ resultado.minutos }} minutos</li>
+                            <li><strong>Precio por minuto:</strong> {{ resultado.precio_por_minuto|number_format(2) }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Desglose de Costos:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Costo base:</strong> {{ resultado.costo_base|number_format(2) }}</li>
+                            {% if resultado.descuento_aplicado > 0 %}
+                            <li><strong>Descuento ({{ resultado.descuento_aplicado }}%):</strong> -{{ resultado.monto_descuento|number_format(2) }}</li>
+                            {% endif %}
+                            <li><strong>Costo final:</strong> {{ resultado.costo_final|number_format(2) }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="alert alert-success">
+                        <h4 class="mb-0 text-center">
+                            <i class="fas fa-dollar-sign me-2"></i>
+                            <strong>Costo Total: ${{ resultado.costo_final|number_format(2) }}</strong>
+                        </h4>
+                    </div>
+                    
+                    {% if resultado.descuento_aplicado > 0 %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-tag me-2"></i>
+                        <strong>¡Descuento aplicado!</strong> Se aplicó un descuento del {{ resultado.descuento_aplicado }}% por llamada menor a 30 minutos.
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Información adicional -->
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Información Importante
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Descuentos:</h6>
+                        <ul class="text-muted">
+                            <li>Llamadas < 30 min: 10% de descuento</li>
+                            <li>Llamadas ≥ 30 min: Sin descuento</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Ejemplos de Costos:</h6>
+                        <ul class="text-muted small">
+                            <li>América del Norte (15 min): $27.00</li>
+                            <li>Europa (45 min): $157.50</li>
+                            <li>Asia (20 min): $108.00</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

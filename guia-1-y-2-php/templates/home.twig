@@ -1,0 +1,160 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-rocket text-primary me-3"></i>
+            {{ message }}
+        </h1>
+        
+        <p class="lead mb-5">
+            Este es un proyecto PHP moderno con ruteo y plantillas Twig. 
+            ¡Comienza a construir tu aplicación web!
+        </p>
+        
+        <!-- Sección de ejercicios de la Parte 1 -->
+        <div class="mb-5">
+            <h2 class="h3 fw-bold text-primary mb-4">
+                <i class="fas fa-code me-2"></i>
+                Ejercicios - Parte 1
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-infinity fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Serie Fibonacci</h5>
+                            <p class="card-text">Genera los primeros n términos de la serie Fibonacci.</p>
+                            <a href="/fibonacci" class="btn btn-primary">
+                                <i class="fas fa-play me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-hashtag fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Números Primos</h5>
+                            <p class="card-text">Verifica si un número es primo y encuentra números primos.</p>
+                            <a href="/primos" class="btn btn-success">
+                                <i class="fas fa-check me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-mirror fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">Palíndromos</h5>
+                            <p class="card-text">Verifica si una palabra o frase es un palíndromo.</p>
+                            <a href="/palindromos" class="btn btn-info">
+                                <i class="fas fa-search me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de ejercicios de la Parte 2 -->
+        <div class="mb-5">
+            <h2 class="h3 fw-bold text-warning mb-4">
+                <i class="fas fa-code me-2"></i>
+                Ejercicios - Parte 2
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-plus-circle fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">Suma de Números Pares</h5>
+                            <p class="card-text">Suma todos los números pares en un array de números enteros.</p>
+                            <a href="/suma-pares" class="btn btn-warning">
+                                <i class="fas fa-calculator me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-phone-alt fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title">Llamadas Internacionales</h5>
+                            <p class="card-text">Calcula el costo de llamadas telefónicas internacionales por zona.</p>
+                            <a href="/llamadas-internacionales" class="btn btn-danger">
+                                <i class="fas fa-calculator me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-gamepad fa-3x text-purple mb-3"></i>
+                            <h5 class="card-title">FizzBuzz</h5>
+                            <p class="card-text">Genera la secuencia FizzBuzz hasta un número n.</p>
+                            <a href="/fizzbuzz" class="btn btn-purple">
+                                <i class="fas fa-play me-2"></i>Ejecutar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de características del proyecto -->
+        <div class="mb-5">
+            <h2 class="h3 fw-bold text-secondary mb-4">
+                <i class="fas fa-cogs me-2"></i>
+                Características del Proyecto
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-route fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Ruteo Inteligente</h5>
+                            <p class="card-text">Sistema de rutas rápido y eficiente con FastRoute.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-paint-brush fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Plantillas Twig</h5>
+                            <p class="card-text">Motor de plantillas potente y seguro para tus vistas.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-mobile-alt fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">Responsive Design</h5>
+                            <p class="card-text">Interfaz moderna y adaptable a todos los dispositivos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5">
+            <a href="/about" class="btn btn-primary btn-lg">
+                <i class="fas fa-info-circle me-2"></i>Conoce más
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

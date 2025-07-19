@@ -1,0 +1,155 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-warning">
+                <i class="fas fa-plus-circle me-3"></i>
+                Suma de Números Pares
+            </h1>
+            <p class="lead text-muted">
+                Suma todos los números pares en un array de números enteros
+            </p>
+        </div>
+
+        <!-- Descripción del problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Problema:</strong> Crea un script que sume todos los números pares en un array de números enteros.
+                </p>
+                <p class="mb-0">
+                    <strong>Funcionalidad:</strong> El sistema filtra automáticamente los números pares y calcula su suma total.
+                </p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-calculator me-2"></i>
+                    Calculadora de Números Pares
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="row g-3">
+                    <div class="col-md-8">
+                        <label for="numeros" class="form-label">Números (separados por comas):</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="numeros" 
+                               name="numeros" 
+                               value="{{ input.numeros|default('1,2,3,4,5,6,7,8,9,10') }}" 
+                               placeholder="Ej: 1,2,3,4,5,6,7,8,9,10"
+                               required>
+                        <div class="form-text">Ingresa números enteros separados por comas</div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-calculator me-2"></i>
+                            Calcular
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        {% if resultado %}
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Resultado del Análisis
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Números ingresados:</h6>
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for numero in resultado.numeros %}
+                                <span class="badge bg-secondary fs-6">{{ numero }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Estadísticas:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Total de números:</strong> {{ resultado.estadisticas.total }}</li>
+                            <li><strong>Números pares:</strong> {{ resultado.estadisticas.pares }}</li>
+                            <li><strong>Números impares:</strong> {{ resultado.estadisticas.impares }}</li>
+                            <li><strong>Promedio:</strong> {{ resultado.estadisticas.promedio|number_format(2) }}</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="text-muted">Números pares encontrados:</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        {% for par in resultado.pares %}
+                        <span class="badge bg-success fs-6">{{ par }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <h6 class="text-muted">Números impares encontrados:</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        {% for impar in resultado.impares %}
+                        <span class="badge bg-info fs-6">{{ impar }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <h5 class="mb-0">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            <strong>Suma de números pares: {{ resultado.suma_pares }}</strong>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Ejemplos -->
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Ejemplos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>Ejemplo 1:</h6>
+                        <p class="text-muted">[1,2,3,4,5,6]</p>
+                        <p class="small">Pares: 2,4,6 → Suma: 12</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Ejemplo 2:</h6>
+                        <p class="text-muted">[10,15,20,25,30]</p>
+                        <p class="small">Pares: 10,20,30 → Suma: 60</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Ejemplo 3:</h6>
+                        <p class="text-muted">[1,3,5,7,9]</p>
+                        <p class="small">Pares: ninguno → Suma: 0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
