@@ -5,7 +5,7 @@ Este proyecto implementa los ejercicios de la Parte 1 y Parte 2 utilizando PHP m
 ## 🌐 Demo en Vivo
 
 **¡Prueba la aplicación en línea!**
-- 🔗 **[Demo en Netlify](https://php-fsj28-kodigo.netlify.app)**
+- 🔗 **[Demo en Netlify](https://kodigo-fsj28.vercel.app/)**
 - 🌙 **Tema oscuro/claro** incluido
 - 📱 **Diseño responsive** para todos los dispositivos
 - ⚡ **Interfaz moderna** con Bootstrap 5
@@ -345,6 +345,41 @@ El proyecto está desplegado en Netlify para demostración en vivo:
 - **URL**: https://php-fsj28-kodigo.netlify.app
 - **Configuración**: Despliegue automático desde GitHub
 - **Características**: CDN global, SSL automático, optimizaciones de rendimiento
+
+### Vercel
+El proyecto también está configurado para desplegar en Vercel:
+
+#### Requisitos para Vercel:
+- **Cuenta de Vercel**: Registrarse en [vercel.com](https://vercel.com)
+- **CLI de Vercel**: Instalar con `npm i -g vercel`
+- **Configuración PHP**: El proyecto incluye `vercel.json` configurado
+
+#### Pasos para desplegar en Vercel:
+
+1. **Instalar Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Iniciar sesión en Vercel**:
+   ```bash
+   vercel login
+   ```
+
+3. **Desplegar el proyecto**:
+   ```bash
+   vercel
+   ```
+
+4. **Para producción**:
+   ```bash
+   vercel --prod
+   ```
+
+#### Configuración incluida:
+- ✅ `vercel.json`: Configuración de rutas y runtime PHP
+- ✅ `.vercelignore`: Archivos excluidos del despliegue
+- ✅ `composer.json`: Optimizado para producción
 
 ### Despliegue Local
 Para desplegar localmente, sigue las instrucciones de instalación en la sección "Instalación y Uso".

@@ -1,6 +1,6 @@
 {
-    "name": "kodigo/guia-1-y-2-php",
-    "description": "Ejercicios de PHP moderno con programación funcional",
+    "name": "franklinrony/kodigo-fsj28",
+    "description": "Ejercicios PHP Parte 1 y 2 con programación funcional",
     "type": "project",
     "require": {
         "php": ">=8.0",
@@ -15,13 +15,15 @@
             "App\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
     "scripts": {
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-html coverage"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "platform": {
+        "php": "8.0"
     }
 } 
