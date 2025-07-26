@@ -1,4 +1,4 @@
-# Ejercicios de Algoritmos en PHP
+# Ejercicios de Algoritmos en PHP: GUIA 3 & 4
 
 ## 📋 Descripción
 
@@ -18,7 +18,11 @@ Este proyecto implementa ejercicios específicos de algoritmos en PHP utilizando
 - **Insertion Sort** - Insertar un elemento en su posición correcta
 - **Binary Search** - Buscar un elemento en un array ordenado
 - **Happy Number** - Determinar si un número es feliz
-- Más ejercicios próximamente...
+- **Birthday Cake Candles** - Contar velas más altas en un pastel
+- **Mars Exploration** - Contar letras alteradas en mensajes SOS
+- **Merge Sort** - Algoritmo de ordenamiento por mezcla
+- **Strong Password** - Validar y fortalecer contraseñas
+- **Very Big Sum** - Suma de números muy grandes
 
 ### Tecnologías Utilizadas
 - **Composer** para gestión de dependencias
@@ -46,12 +50,22 @@ guia-3-php/
 │   │   ├── HeightChecker.php          # Ejercicio Height Checker
 │   │   ├── InsertionSort.php          # Ejercicio Insertion Sort
 │   │   ├── BinarySearch.php           # Ejercicio Binary Search
-│   │   └── HappyNumber.php            # Ejercicio Happy Number
+│   │   ├── HappyNumber.php            # Ejercicio Happy Number
+│   │   ├── BirthdayCakeCandles.php    # Ejercicio Birthday Cake Candles
+│   │   ├── MarsExploration.php        # Ejercicio Mars Exploration
+│   │   ├── MergeSort.php              # Ejercicio Merge Sort
+│   │   ├── StrongPassword.php         # Ejercicio Strong Password
+│   │   └── VeryBigSum.php             # Ejercicio Very Big Sum
 │   ├── Examples/
 │   │   ├── HeightCheckerExample.php   # Ejemplo de uso
 │   │   ├── InsertionSortExample.php   # Ejemplo de uso
 │   │   ├── BinarySearchExample.php    # Ejemplo de uso
-│   │   └── HappyNumberExample.php     # Ejemplo de uso
+│   │   ├── HappyNumberExample.php     # Ejemplo de uso
+│   │   ├── BirthdayCakeCandlesExample.php # Ejemplo de uso
+│   │   ├── MarsExplorationExample.php # Ejemplo de uso
+│   │   ├── MergeSortExample.php       # Ejemplo de uso
+│   │   ├── StrongPasswordExample.php  # Ejemplo de uso
+│   │   └── VeryBigSumExample.php      # Ejemplo de uso
 │   └── Helpers/
 │       └── AppHelper.php              # Funciones auxiliares
 ├── templates/
@@ -66,10 +80,25 @@ guia-3-php/
 │       ├── resultado-binary-search.twig   # Resultados del ejercicio
 │       ├── happy-number.twig          # Página del ejercicio Happy Number
 │       ├── resultado-happy-number.twig    # Resultados del ejercicio
+│       ├── birthday-cake-candles.twig     # Página del ejercicio Birthday Cake Candles
+│       ├── resultado-birthday-cake-candles.twig # Resultados del ejercicio
+│       ├── mars-exploration.twig      # Página del ejercicio Mars Exploration
+│       ├── resultado-mars-exploration.twig # Resultados del ejercicio
+│       ├── merge-sort.twig            # Página del ejercicio Merge Sort
+│       ├── resultado-merge-sort.twig  # Resultados del ejercicio
+│       ├── strong-password.twig       # Página del ejercicio Strong Password
+│       ├── resultado-strong-password.twig # Resultados del ejercicio
+│       ├── very-big-sum.twig          # Página del ejercicio Very Big Sum
+│       ├── resultado-very-big-sum.twig # Resultados del ejercicio
 │       ├── ejemplos-height-checker.twig   # Ejemplos del ejercicio
 │       ├── ejemplos-insertion-sort.twig   # Ejemplos del ejercicio
 │       ├── ejemplos-binary-search.twig    # Ejemplos del ejercicio
-│       └── ejemplos-happy-number.twig     # Ejemplos del ejercicio
+│       ├── ejemplos-happy-number.twig     # Ejemplos del ejercicio
+│       ├── ejemplos-birthday-cake-candles.twig # Ejemplos del ejercicio
+│       ├── ejemplos-mars-exploration.twig # Ejemplos del ejercicio
+│       ├── ejemplos-merge-sort.twig   # Ejemplos del ejercicio
+│       ├── ejemplos-strong-password.twig  # Ejemplos del ejercicio
+│       └── ejemplos-very-big-sum.twig     # Ejemplos del ejercicio
 ├── cache/                     # Cache de Twig (se crea automáticamente)
 ├── vendor/                    # Dependencias de Composer
 ├── composer.json              # Configuración de Composer
@@ -164,10 +193,35 @@ guia-3-php/
 3. Ejecutar y ver el proceso de suma de cuadrados paso a paso
 4. Observar si el número termina en 1 (feliz) o en un ciclo infinito
 
-### Próximos Ejercicios
-- Se agregarán más ejercicios de algoritmos
-- Cada ejercicio tendrá su propia página con ejemplos
-- Soluciones detalladas con pasos explicativos
+### Ejercicio Birthday Cake Candles
+1. Seleccionar el ejercicio Birthday Cake Candles
+2. Ingresar un array de alturas de velas o usar ejemplos predefinidos
+3. Ejecutar y ver el proceso de conteo paso a paso
+4. Observar cuántas velas tienen la altura máxima
+
+### Ejercicio Mars Exploration
+1. Seleccionar el ejercicio Mars Exploration
+2. Ingresar un string con mensajes SOS o usar ejemplos predefinidos
+3. Ejecutar y ver el análisis de cada mensaje SOS paso a paso
+4. Observar cuántas letras han sido alteradas por la radiación cósmica
+
+### Ejercicio Merge Sort
+1. Seleccionar el ejercicio Merge Sort
+2. Ingresar un array a ordenar o usar ejemplos predefinidos
+3. Ejecutar y ver el proceso de división y mezcla paso a paso
+4. Observar cómo se divide recursivamente y se mezclan los subarrays
+
+### Ejercicio Strong Password
+1. Seleccionar el ejercicio Strong Password
+2. Ingresar una contraseña a validar o usar ejemplos predefinidos
+3. Ejecutar y ver la verificación de cada criterio paso a paso
+4. Observar cuántos caracteres faltan para hacer la contraseña fuerte
+
+### Ejercicio Very Big Sum
+1. Seleccionar el ejercicio Very Big Sum
+2. Ingresar un array de números grandes o usar ejemplos predefinidos
+3. Ejecutar y ver el proceso de suma paso a paso
+4. Observar si la suma excede el rango de enteros de 32 bits
 
 ### Uso Programático
 
@@ -188,6 +242,12 @@ echo "Estudiantes en posiciones incorrectas: " . $resultado['resultado'];
 php src/Examples/HeightCheckerExample.php
 php src/Examples/InsertionSortExample.php
 php src/Examples/BinarySearchExample.php
+php src/Examples/HappyNumberExample.php
+php src/Examples/BirthdayCakeCandlesExample.php
+php src/Examples/MarsExplorationExample.php
+php src/Examples/MergeSortExample.php
+php src/Examples/StrongPasswordExample.php
+php src/Examples/VeryBigSumExample.php
 ```
 
 **Funciones auxiliares:**
@@ -434,6 +494,172 @@ Explanation:
 - Ejemplos predefinidos
 - Interfaz web interactiva con emojis
 
+### Birthday Cake Candles
+
+#### Descripción
+Dado un array de alturas de velas en un pastel de cumpleaños, contar cuántas velas son las más altas.
+
+#### Ejemplo
+```
+Input: candles = [4, 4, 1, 3]
+Output: 2
+
+Explanation:
+Las velas más altas tienen altura 4.
+Hay 2 velas con altura 4.
+```
+
+#### Restricciones
+- `1 <= n <= 10^5`
+- `1 <= candles[i] <= 10^7`
+
+#### Complejidad
+- **Tiempo:** O(n) - una pasada para encontrar el máximo y otra para contar
+- **Espacio:** O(1) - solo variables auxiliares
+
+#### Características
+- Validación de restricciones
+- Visualización paso a paso del proceso de conteo
+- Identificación de posiciones de velas más altas
+- Ejemplos predefinidos
+- Interfaz web interactiva
+
+### Mars Exploration
+
+#### Descripción
+Un astronauta en Marte envía mensajes SOS a la Tierra. Debido a la radiación cósmica, algunas letras pueden ser alteradas. Dado un string que contiene múltiples mensajes SOS, contar cuántas letras han sido alteradas.
+
+#### Ejemplo
+```
+Input: s = "SOSSPSSQSSOR"
+Output: 3
+
+Explanation:
+SOSSPSSQSSOR = SOS + SPS + SQO + SSR
+SOS: perfecto
+SPS: 1 letra alterada (P en lugar de O)
+SQO: 1 letra alterada (Q en lugar de S)
+SSR: 1 letra alterada (R en lugar de O)
+Total: 3 letras alteradas
+```
+
+#### Restricciones
+- `1 <= |s| <= 99`
+- `s` contiene solo letras mayúsculas
+- `|s|` es múltiplo de 3
+
+#### Complejidad
+- **Tiempo:** O(n) - una pasada por el string
+- **Espacio:** O(1) - solo variables auxiliares
+
+#### Características
+- Validación de restricciones
+- Visualización paso a paso del análisis de mensajes SOS
+- Comparación carácter por carácter
+- Identificación de posiciones alteradas
+- Ejemplos predefinidos
+- Interfaz web interactiva
+
+### Merge Sort
+
+#### Descripción
+Implementar el algoritmo de ordenamiento por mezcla (Merge Sort) que utiliza la estrategia de "divide y conquista" para ordenar un array.
+
+#### Ejemplo
+```
+Input: arr = [64, 34, 25, 12, 22, 11, 90]
+Output: [11, 12, 22, 25, 34, 64, 90]
+
+Explanation:
+1. Dividir: [64, 34, 25] y [12, 22, 11, 90]
+2. Dividir recursivamente hasta obtener elementos individuales
+3. Mezclar subarrays ordenados
+4. Resultado final ordenado
+```
+
+#### Restricciones
+- `1 <= n <= 10^5`
+- `-10^9 <= arr[i] <= 10^9`
+
+#### Complejidad
+- **Tiempo:** O(n log n) - divide el array por la mitad en cada nivel
+- **Espacio:** O(n) - para almacenar los subarrays temporales
+
+#### Características
+- Validación de restricciones
+- Visualización paso a paso del proceso de división y mezcla
+- Implementación recursiva con indentación visual
+- Comparación de arrays antes y después
+- Ejemplos predefinidos
+- Interfaz web interactiva
+
+### Strong Password
+
+#### Descripción
+Dado una contraseña, determinar el mínimo número de caracteres que deben agregarse para que sea una contraseña fuerte. Una contraseña fuerte debe tener:
+1. Al menos 6 caracteres
+2. Al menos un dígito
+3. Al menos una letra minúscula
+4. Al menos una letra mayúscula
+5. Al menos un carácter especial
+
+#### Ejemplo
+```
+Input: password = "Ab1"
+Output: 3
+
+Explanation:
+La contraseña tiene 3 caracteres, pero necesita al menos 6.
+Faltan: 1 dígito, 1 minúscula, 1 mayúscula, 1 especial, y 3 caracteres más.
+Mínimo a agregar: 3 caracteres
+```
+
+#### Restricciones
+- `1 <= n <= 100`
+- `password` contiene solo letras minúsculas, mayúsculas, dígitos y caracteres especiales
+
+#### Complejidad
+- **Tiempo:** O(n) - una pasada por la contraseña
+- **Espacio:** O(1) - solo variables auxiliares
+
+#### Características
+- Validación de restricciones
+- Verificación de cada criterio de contraseña fuerte
+- Cálculo de caracteres faltantes
+- Visualización de criterios cumplidos y faltantes
+- Ejemplos predefinidos
+- Interfaz web interactiva
+
+### Very Big Sum
+
+#### Descripción
+Calcular la suma de elementos en un array considerando que los números pueden ser muy grandes y exceder el rango de enteros de 32 bits.
+
+#### Ejemplo
+```
+Input: ar = [1000000001, 1000000002, 1000000003, 1000000004, 1000000005]
+Output: 5000000015
+
+Explanation:
+1000000001 + 1000000002 + 1000000003 + 1000000004 + 1000000005 = 5000000015
+```
+
+#### Restricciones
+- `1 <= n <= 10`
+- `0 <= ar[i] <= 10^10`
+
+#### Complejidad
+- **Tiempo:** O(n) - una pasada por el array
+- **Espacio:** O(1) - solo variables auxiliares
+
+#### Características
+- Validación de restricciones
+- Uso de BC Math para manejar números muy grandes
+- Verificación de rango de enteros de 32 bits
+- Formateo de números grandes para visualización
+- Ejemplos predefinidos
+- Interfaz web interactiva
+
 ## 🧪 Pruebas
 
 Para probar los ejercicios:
@@ -444,6 +670,11 @@ php src/Examples/HeightCheckerExample.php
 php src/Examples/InsertionSortExample.php
 php src/Examples/BinarySearchExample.php
 php src/Examples/HappyNumberExample.php
+php src/Examples/BirthdayCakeCandlesExample.php
+php src/Examples/MarsExplorationExample.php
+php src/Examples/MergeSortExample.php
+php src/Examples/StrongPasswordExample.php
+php src/Examples/VeryBigSumExample.php
 ```
 
 2. **Usar la interfaz web:**
@@ -482,13 +713,6 @@ php src/Examples/HappyNumberExample.php
 2. Mantener el modo debug activo
 3. Auto-reload habilitado para Twig
 
-## 🤝 Contribuciones
-
-1. Fork el proyecto
-2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
 
 ## 📄 Licencia
 
@@ -496,7 +720,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👨‍💻 Autor
 
-**Kodigo Bootcamp** - Proyecto educativo para el aprendizaje de ejercicios de algoritmos en PHP.
+**Franklin Rony Cortez Barrera** - Proyecto educativo para el aprendizaje de ejercicios de algoritmos en PHP para bootcamp FSJ28 de Kodigo.
 
 ---
 
