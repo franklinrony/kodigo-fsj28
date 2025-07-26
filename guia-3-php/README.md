@@ -139,7 +139,7 @@ guia-3-php/
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/franklinrony/kodigo-fsj28.git
    cd guia-3-php
    ```
 
