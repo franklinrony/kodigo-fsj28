@@ -1,0 +1,33 @@
+# Dependencias de Composer
+/vendor/
+
+# Cache de Twig
+/cache/
+
+# Archivos de configuración del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de log
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos de configuración local
+.env
+.env.local
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de cache del sistema
+*.cache 

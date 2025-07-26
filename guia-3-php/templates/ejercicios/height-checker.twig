@@ -1,0 +1,153 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="text-center mb-4">
+            <h1 class="display-5 text-primary">
+                <i class="bi bi-people"></i>
+                {{ titulo }}
+            </h1>
+            <p class="lead text-muted">{{ descripcion }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Descripción del Problema -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-question-circle"></i>
+                    Descripción del Problema
+                </h4>
+            </div>
+            <div class="card-body">
+                <p>Se te da un array <code>heights</code> que representa las alturas de los estudiantes en una fila. 
+                Los estudiantes están ordenados por sus alturas en orden ascendente.</p>
+                
+                <p>Tu tarea es contar cuántos estudiantes están en posiciones incorrectas después de ordenar por altura.</p>
+                
+                <div class="alert alert-warning">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Restricciones:
+                    </h6>
+                    <ul class="mb-0">
+                        {% for restriccion in restricciones %}
+                        <li><code>{{ restriccion }}</code></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ejemplos -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-lightbulb"></i>
+                    Ejemplos
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for i, ejemplo in ejemplos %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="card-title mb-0">{{ ejemplo.nombre }}</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text"><small>{{ ejemplo.descripcion }}</small></p>
+                                <div class="array-display">
+                                    <strong>Input:</strong> [{{ ejemplo.heights|join(', ') }}]
+                                </div>
+                                <button class="btn btn-success btn-sm mt-2" 
+                                        onclick="seleccionarEjemplo('{{ ejemplo.heights|join(',') }}')">
+                                    <i class="bi bi-play-circle"></i>
+                                    Usar este ejemplo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Entrada -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-gear"></i>
+                    Resolver Ejercicio
+                </h4>
+            </div>
+            <div class="card-body">
+                <form action="/ejercicios/height-checker/ejecutar" method="POST">
+                    <div class="mb-3">
+                        <label for="heights" class="form-label">
+                            <i class="bi bi-list-ul"></i>
+                            Array de Alturas
+                        </label>
+                        <input type="text" class="form-control" id="heights" name="heights" 
+                               placeholder="Ej: 5,1,2,3,4" required>
+                        <div class="form-text">
+                            Ingresa las alturas separadas por comas (números entre 1 y 100)
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ejemplo" class="form-label">
+                            <i class="bi bi-collection"></i>
+                            O selecciona un ejemplo predefinido
+                        </label>
+                        <select class="form-select" id="ejemplo" name="ejemplo">
+                            <option value="">-- Selecciona un ejemplo --</option>
+                            {% for i, ejemplo in ejemplos %}
+                            <option value="{{ i }}">{{ ejemplo.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="/ejercicios" class="btn btn-secondary me-md-2">
+                        <i class="bi bi-arrow-left"></i>
+                        Volver
+                    </a>
+                    <a href="/ejercicios/height-checker/ejemplos" class="btn btn-info me-md-2">
+                        <i class="bi bi-collection"></i>
+                        Ver Todos los Ejemplos
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-play-circle"></i>
+                        Resolver
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Enlaces Adicionales -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <a href="/ejercicios/height-checker/ejemplos" class="btn btn-info">
+                <i class="bi bi-list-check"></i>
+                Ver Todos los Ejemplos
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function seleccionarEjemplo(heights) {
+    document.getElementById('heights').value = heights;
+    document.getElementById('ejemplo').value = '';
+}
+</script>
+{% endblock %} 

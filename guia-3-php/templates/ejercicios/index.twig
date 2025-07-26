@@ -1,0 +1,128 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="text-center mb-4">
+            <h1 class="display-5 text-primary">
+                <i class="bi bi-puzzle"></i>
+                {{ titulo }}
+            </h1>
+            <p class="lead text-muted">{{ descripcion }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-list-check"></i>
+                    Ejercicios Disponibles
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for key, ejercicio in ejercicios %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">
+                                    <i class="bi bi-code-square"></i>
+                                    {{ ejercicio.nombre }}
+                                </h5>
+                                <p class="card-text">{{ ejercicio.descripcion }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-success">{{ ejercicio.dificultad }}</span>
+                                    <span class="badge bg-info">{{ ejercicio.categoria }}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/ejercicios/{{ key }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-play-circle"></i>
+                                    Resolver
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    Cómo Funcionan los Ejercicios
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="bi bi-1-circle text-primary" style="font-size: 2rem;"></i>
+                        <h6 class="mt-2">Selecciona un Ejercicio</h6>
+                        <p class="text-muted">Elige el problema que quieres resolver</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="bi bi-2-circle text-success" style="font-size: 2rem;"></i>
+                        <h6 class="mt-2">Ingresa los Datos</h6>
+                        <p class="text-muted">Proporciona el input o usa ejemplos predefinidos</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="bi bi-3-circle text-warning" style="font-size: 2rem;"></i>
+                        <h6 class="mt-2">Ve la Solución</h6>
+                        <p class="text-muted">Observa el proceso paso a paso</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+            <a href="/ejercicios/height-checker" class="btn btn-primary me-2">
+                <i class="bi bi-play-circle"></i>
+                Probar Height Checker
+            </a>
+            <a href="/ejercicios/insertion-sort" class="btn btn-success me-2">
+                <i class="bi bi-sort-numeric-down"></i>
+                Probar Insertion Sort
+            </a>
+            <a href="/ejercicios/binary-search" class="btn btn-info me-2">
+                <i class="bi bi-search"></i>
+                Probar Binary Search
+            </a>
+            <a href="/ejercicios/happy-number" class="btn btn-warning me-2">
+                <i class="bi bi-emoji-smile"></i>
+                Probar Happy Number
+            </a>
+            <a href="/ejercicios/birthday-cake-candles" class="btn btn-danger me-2">
+                <i class="bi bi-cake2"></i>
+                Probar Birthday Cake Candles
+            </a>
+            <a href="/ejercicios/strong-password" class="btn btn-dark me-2">
+                <i class="bi bi-shield-lock"></i>
+                Probar Strong Password
+            </a>
+            <a href="/ejercicios/mars-exploration" class="btn btn-warning me-2">
+                <i class="bi bi-rocket"></i>
+                Probar Mars Exploration
+            </a>
+            <a href="/ejercicios/merge-sort" class="btn btn-info me-2">
+                <i class="bi bi-arrow-down-up"></i>
+                Probar Merge Sort
+            </a>
+            <a href="/ejercicios/very-big-sum" class="btn btn-success">
+                <i class="bi bi-calculator"></i>
+                Probar A Very Big Sum
+            </a>
+        </div>
+{% endblock %} 

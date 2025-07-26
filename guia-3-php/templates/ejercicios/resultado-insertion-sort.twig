@@ -1,0 +1,154 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+                <h1 class="display-4">
+                    <i class="bi bi-sort-numeric-down"></i>
+                    {{ titulo }}
+                </h1>
+                <p class="lead text-muted">
+                    Resultado del ejercicio Insertion Sort
+                </p>
+            </div>
+
+            {% if resultado.error %}
+            <!-- Error de Validación -->
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Error de Validación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <i class="bi bi-x-circle"></i>
+                        {{ resultado.error }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Resultado -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-check-circle"></i>
+                        Resultado
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h2 class="display-4 text-success">¡Inserción Completada!</h2>
+                        <p class="lead">
+                            El elemento {{ resultado.valor_insertado }} fue insertado en la posición {{ resultado.posicion_final }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-eye"></i>
+                        Visualización
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted">Array Final:</h6>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                {% for i, valor in resultado.resultado %}
+                                    {% if i == resultado.posicion_final %}
+                                        <span class="badge bg-success fs-6">{{ valor }}</span>
+                                    {% else %}
+                                        <span class="badge bg-primary fs-6">{{ valor }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i>
+                                Verde = elemento insertado, Azul = elementos originales
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparación -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-arrow-left-right"></i>
+                        Comparación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Array Original:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for valor in resultado.array_original %}
+                                    <span class="badge bg-secondary">{{ valor }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Array Final:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for valor in resultado.resultado %}
+                                    <span class="badge bg-success">{{ valor }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasos Detallados -->
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-list-ol"></i>
+                        Pasos Detallados
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for paso in resultado.pasos %}
+                        <div class="list-group-item">
+                            <i class="bi bi-arrow-right text-primary"></i>
+                            {{ paso }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Botones de Acción -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="/ejercicios/insertion-sort" class="btn btn-primary me-md-2">
+                    <i class="bi bi-arrow-left"></i>
+                    Probar Otro Caso
+                </a>
+                <a href="/ejercicios/insertion-sort/ejemplos" class="btn btn-info me-md-2">
+                    <i class="bi bi-collection"></i>
+                    Ver Todos los Ejemplos
+                </a>
+                <a href="/ejercicios" class="btn btn-secondary">
+                    <i class="bi bi-house"></i>
+                    Ir al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
