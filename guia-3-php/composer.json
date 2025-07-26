@@ -1,0 +1,21 @@
+{
+    "name": "kodigo/algoritmos-php",
+    "description": "Proyecto de algoritmos de ordenamiento y búsqueda con PHP",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "twig/twig": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Franklin Rony Cortez Barrera",
+            "email": "franklinrony2[at]gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+} 

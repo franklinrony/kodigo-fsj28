@@ -1,0 +1,191 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+                <h1 class="display-4">
+                    <i class="bi bi-emoji-smile"></i>
+                    {{ titulo }}
+                </h1>
+                <p class="lead text-muted">
+                    Resultado del ejercicio Happy Number
+                </p>
+            </div>
+
+            {% if resultado.error %}
+            <!-- Error de Validación -->
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Error de Validación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <i class="bi bi-x-circle"></i>
+                        {{ resultado.error }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Resultado -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-check-circle"></i>
+                        Resultado
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        {% if resultado.resultado %}
+                            <h2 class="display-4 text-success">
+                                <i class="bi bi-emoji-smile"></i>
+                                TRUE
+                            </h2>
+                            <p class="lead">
+                                ¡El número {{ resultado.numero }} ES FELIZ! 😊
+                            </p>
+                        {% else %}
+                            <h2 class="display-4 text-danger">
+                                <i class="bi bi-emoji-frown"></i>
+                                FALSE
+                            </h2>
+                            <p class="lead">
+                                El número {{ resultado.numero }} NO ES FELIZ 😔
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información del Algoritmo -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-gear"></i>
+                        Información del Algoritmo
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Detalles:</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Número:</strong> {{ resultado.numero }}</li>
+                                <li><strong>Iteraciones:</strong> {{ resultado.iteraciones }}</li>
+                                <li><strong>Estado:</strong> 
+                                    {% if resultado.es_feliz %}
+                                        <span class="badge bg-success">Feliz</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">No Feliz</span>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Secuencia:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for numero in resultado.secuencia %}
+                                    {% if loop.last and resultado.es_feliz %}
+                                        <span class="badge bg-success">{{ numero }}</span>
+                                    {% else %}
+                                        <span class="badge bg-primary">{{ numero }}</span>
+                                    {% endif %}
+                                    {% if not loop.last %}
+                                        <i class="bi bi-arrow-right text-muted"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if resultado.es_feliz %}
+                                    <i class="bi bi-arrow-right text-muted"></i>
+                                    <span class="badge bg-success">1</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización del Proceso -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-eye"></i>
+                        Visualización del Proceso
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="text-muted">Secuencia Completa:</h6>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                {% for numero in resultado.secuencia %}
+                                    {% if loop.last and resultado.es_feliz %}
+                                        <span class="badge bg-success fs-6">{{ numero }}</span>
+                                    {% else %}
+                                        <span class="badge bg-primary fs-6">{{ numero }}</span>
+                                    {% endif %}
+                                    {% if not loop.last %}
+                                        <i class="bi bi-arrow-right text-muted fs-5"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if resultado.es_feliz %}
+                                    <i class="bi bi-arrow-right text-muted fs-5"></i>
+                                    <span class="badge bg-success fs-6">1</span>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i>
+                                Verde = número feliz (termina en 1), Azul = proceso intermedio
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasos Detallados -->
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-list-ol"></i>
+                        Pasos Detallados
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for paso in resultado.pasos %}
+                        <div class="list-group-item">
+                            <i class="bi bi-arrow-right text-primary"></i>
+                            {{ paso }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Botones de Acción -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="/ejercicios/happy-number" class="btn btn-primary me-md-2">
+                    <i class="bi bi-arrow-left"></i>
+                    Probar Otro Número
+                </a>
+                <a href="/ejercicios/happy-number/ejemplos" class="btn btn-info me-md-2">
+                    <i class="bi bi-collection"></i>
+                    Ver Todos los Ejemplos
+                </a>
+                <a href="/ejercicios" class="btn btn-secondary">
+                    <i class="bi bi-house"></i>
+                    Ir al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

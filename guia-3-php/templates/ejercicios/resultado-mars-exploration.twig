@@ -1,0 +1,210 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+                <h1 class="display-4">
+                    <i class="bi bi-rocket"></i>
+                    {{ titulo }}
+                </h1>
+                <p class="lead text-muted">
+                    Resultado del ejercicio Mars Exploration
+                </p>
+            </div>
+
+            {% if resultado.error %}
+            <!-- Error de Validación -->
+            <div class="card mb-4">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Error de Validación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <i class="bi bi-x-circle"></i>
+                        {{ resultado.error }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Resultado -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-check-circle"></i>
+                        Resultado
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h2 class="display-4 text-success">
+                            <i class="bi bi-radioactive"></i>
+                            {{ resultado.resultado }}
+                        </h2>
+                        <p class="lead">
+                            {% if resultado.resultado == 0 %}
+                                ¡Todos los mensajes SOS llegaron perfectos! 🎉
+                            {% else %}
+                                Se detectaron <strong>{{ resultado.resultado }}</strong> letra(s) alterada(s) por radiación cósmica
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información del Algoritmo -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-gear"></i>
+                        Información del Algoritmo
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Detalles del Mensaje:</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>Mensaje recibido:</strong> <code>{{ resultado.mensaje_recibido }}</code></li>
+                                <li><strong>Longitud:</strong> {{ resultado.longitud }} caracteres</li>
+                                <li><strong>Número de mensajes SOS:</strong> {{ resultado.num_mensajes }}</li>
+                                <li><strong>Mensaje SOS esperado:</strong> <code>{{ resultado.mensaje_esperado }}</code></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Análisis:</h6>
+                            <div class="mb-2">
+                                <small class="text-muted">Mensaje completo esperado:</small>
+                                <div><code class="bg-light px-2 py-1 rounded">{{ resultado.mensaje_completo_esperado }}</code></div>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">Comparación:</small>
+                                <div><code class="bg-light px-2 py-1 rounded">{{ resultado.comparacion }}</code></div>
+                            </div>
+                            <div class="mb-2">
+                                <small class="text-muted">Posiciones alteradas:</small>
+                                <div>
+                                    {% if resultado.posiciones_alteradas is empty %}
+                                        <span class="badge bg-success">Ninguna</span>
+                                    {% else %}
+                                        {% for posicion in resultado.posiciones_alteradas %}
+                                            <span class="badge bg-danger">{{ posicion }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualización de Mensajes SOS -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-eye"></i>
+                        Visualización de Mensajes SOS
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Mensaje Recibido:</h6>
+                            <div class="border rounded p-3 bg-light">
+                                {% for i in 0..(resultado.longitud - 1) %}
+                                    {% set grupo = (i // 3) + 1 %}
+                                    {% set posicionEnGrupo = i % 3 %}
+                                    {% set caracter = resultado.mensaje_recibido[i] %}
+                                    {% set esperado = resultado.mensaje_esperado[posicionEnGrupo] %}
+                                    {% set esCorrecto = caracter == esperado %}
+                                    
+                                    <span class="badge {% if esCorrecto %}bg-success{% else %}bg-danger{% endif %} me-1 mb-1" 
+                                          title="Posición {{ i }}, Grupo {{ grupo }}, Esperado: {{ esperado }}">
+                                        {{ caracter }}
+                                    </span>
+                                    
+                                    {% if posicionEnGrupo == 2 and i < resultado.longitud - 1 %}
+                                        <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Mensaje Esperado:</h6>
+                            <div class="border rounded p-3 bg-light">
+                                {% for i in 0..(resultado.longitud - 1) %}
+                                    {% set grupo = (i // 3) + 1 %}
+                                    {% set posicionEnGrupo = i % 3 %}
+                                    {% set caracter = resultado.mensaje_esperado[posicionEnGrupo] %}
+                                    
+                                    <span class="badge bg-secondary me-1 mb-1" 
+                                          title="Posición {{ i }}, Grupo {{ grupo }}">
+                                        {{ caracter }}
+                                    </span>
+                                    
+                                    {% if posicionEnGrupo == 2 and i < resultado.longitud - 1 %}
+                                        <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6 class="text-muted">Leyenda:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-success">✓ Correcto</span>
+                            <span class="badge bg-danger">✗ Alterado</span>
+                            <span class="badge bg-secondary">Esperado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasos Detallados -->
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-list-ol"></i>
+                        Pasos Detallados
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for paso in resultado.pasos %}
+                        <div class="list-group-item">
+                            <i class="bi bi-arrow-right text-primary"></i>
+                            {{ paso }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Botones de Acción -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="/ejercicios/mars-exploration" class="btn btn-primary me-md-2">
+                    <i class="bi bi-arrow-left"></i>
+                    Probar Otro Mensaje
+                </a>
+                <a href="/ejercicios/mars-exploration/ejemplos" class="btn btn-info me-md-2">
+                    <i class="bi bi-collection"></i>
+                    Ver Todos los Ejemplos
+                </a>
+                <a href="/ejercicios" class="btn btn-secondary">
+                    <i class="bi bi-house"></i>
+                    Ir al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,182 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+                <h1 class="display-4">
+                    <i class="bi bi-cake2"></i>
+                    {{ titulo }}
+                </h1>
+                <p class="lead text-muted">
+                    {{ descripcion }}
+                </p>
+            </div>
+
+            <!-- Descripción del Problema -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-info-circle"></i>
+                        Descripción del Problema
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Estás a cargo del pastel para el cumpleaños de un niño. Tendrá una vela por cada año de su edad total. 
+                        Solo podrá soplar las velas más altas. Tu tarea es contar cuántas velas son las más altas.
+                    </p>
+                    <div class="alert alert-info">
+                        <i class="bi bi-lightbulb"></i>
+                        <strong>Proceso:</strong> Encuentra la altura máxima de las velas y cuenta cuántas velas tienen esa altura.
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle"></i>
+                        <strong>Retorna:</strong> El número de velas que son las más altas.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restricciones -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Restricciones
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for restriccion in restricciones %}
+                        <li><i class="bi bi-check-circle text-success"></i> {{ restriccion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ejemplos Predefinidos -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-collection"></i>
+                        Ejemplos Predefinidos
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for i, ejemplo in ejemplos %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ ejemplo.nombre }}</h6>
+                                    <p class="card-text small">{{ ejemplo.descripcion }}</p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Velas:</small>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            {% for altura in ejemplo.candles %}
+                                            <span class="badge bg-primary">{{ altura }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="seleccionarEjemplo('{{ ejemplo.candles|join(',') }}')">
+                                        <i class="bi bi-play-circle"></i>
+                                        Usar este ejemplo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de Entrada -->
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-input-cursor"></i>
+                        Resolver Ejercicio
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="/ejercicios/birthday-cake-candles/ejecutar" method="POST">
+                        <div class="mb-3">
+                            <label for="candles" class="form-label">
+                                <i class="bi bi-cake2"></i>
+                                Alturas de las Velas
+                            </label>
+                            <input type="text" class="form-control" id="candles" name="candles"
+                                   placeholder="Ej: 4,4,1,3" required>
+                            <div class="form-text">
+                                Ingresa las alturas de las velas separadas por comas (1-10^7 cada una, máximo 10^5 velas).
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ejemplo" class="form-label">
+                                <i class="bi bi-collection"></i>
+                                O selecciona un ejemplo predefinido
+                            </label>
+                            <select class="form-select" id="ejemplo" name="ejemplo">
+                                <option value="">-- Selecciona un ejemplo --</option>
+                                {% for i, ejemplo in ejemplos %}
+                                <option value="{{ i }}">{{ ejemplo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/ejercicios" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-arrow-left"></i>
+                                Volver
+                            </a>
+                            <a href="/ejercicios/birthday-cake-candles/ejemplos" class="btn btn-info me-md-2">
+                                <i class="bi bi-collection"></i>
+                                Ver Todos los Ejemplos
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-play-circle"></i>
+                                Resolver
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Enlaces Adicionales -->
+            <div class="text-center mt-4">
+                <a href="/ejercicios/height-checker" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Height Checker
+                </a>
+                <a href="/ejercicios/insertion-sort" class="btn btn-outline-success me-2">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Insertion Sort
+                </a>
+                <a href="/ejercicios/binary-search" class="btn btn-outline-info me-2">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Binary Search
+                </a>
+                <a href="/ejercicios/happy-number" class="btn btn-outline-warning">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Happy Number
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function seleccionarEjemplo(candles) {
+    document.getElementById('candles').value = candles;
+    document.getElementById('ejemplo').value = '';
+}
+</script>
+{% endblock %} 

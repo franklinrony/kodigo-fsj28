@@ -1,0 +1,193 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+                <h1 class="display-4">
+                    <i class="bi bi-search"></i>
+                    {{ titulo }}
+                </h1>
+                <p class="lead text-muted">
+                    {{ descripcion }}
+                </p>
+            </div>
+
+            <!-- Descripción del Problema -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-info-circle"></i>
+                        Descripción del Problema
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p>
+                        Dado un array de enteros <code>nums</code> ordenado en orden ascendente y un entero <code>target</code>, 
+                        escribe una función para buscar <code>target</code> en <code>nums</code>. 
+                        Si <code>target</code> existe, retorna su índice. De lo contrario, retorna <code>-1</code>.
+                    </p>
+                    <div class="alert alert-info">
+                        <i class="bi bi-lightbulb"></i>
+                        <strong>Complejidad:</strong> Debes escribir un algoritmo con complejidad <code>O(log n)</code>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restricciones -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Restricciones
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for restriccion in restricciones %}
+                        <li><i class="bi bi-check-circle text-success"></i> {{ restriccion }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ejemplos Predefinidos -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-collection"></i>
+                        Ejemplos Predefinidos
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for i, ejemplo in ejemplos %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ ejemplo.nombre }}</h6>
+                                    <p class="card-text small">{{ ejemplo.descripcion }}</p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Array:</small>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            {% for valor in ejemplo.nums %}
+                                            <span class="badge bg-primary">{{ valor }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Target:</small>
+                                        <span class="badge bg-warning">{{ ejemplo.target }}</span>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="seleccionarEjemplo('{{ ejemplo.nums|join(',') }}', '{{ ejemplo.target }}')">
+                                        <i class="bi bi-play-circle"></i>
+                                        Usar este ejemplo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de Entrada -->
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-input-cursor"></i>
+                        Resolver Ejercicio
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form action="/ejercicios/binary-search/ejecutar" method="POST">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="nums" class="form-label">
+                                        <i class="bi bi-list-ul"></i>
+                                        Array Ordenado (nums)
+                                    </label>
+                                    <input type="text" class="form-control" id="nums" name="nums"
+                                           placeholder="Ej: -1,0,3,5,9,12" required>
+                                    <div class="form-text">
+                                        Ingresa los números separados por comas. El array debe estar ordenado en orden ascendente.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="target" class="form-label">
+                                        <i class="bi bi-bullseye"></i>
+                                        Elemento a Buscar (target)
+                                    </label>
+                                    <input type="number" class="form-control" id="target" name="target"
+                                           placeholder="Ej: 9" required>
+                                    <div class="form-text">
+                                        Ingresa el elemento que quieres buscar.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ejemplo" class="form-label">
+                                <i class="bi bi-collection"></i>
+                                O selecciona un ejemplo predefinido
+                            </label>
+                            <select class="form-select" id="ejemplo" name="ejemplo">
+                                <option value="">-- Selecciona un ejemplo --</option>
+                                {% for i, ejemplo in ejemplos %}
+                                <option value="{{ i }}">{{ ejemplo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/ejercicios" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-arrow-left"></i>
+                                Volver
+                            </a>
+                            <a href="/ejercicios/binary-search/ejemplos" class="btn btn-info me-md-2">
+                                <i class="bi bi-collection"></i>
+                                Ver Todos los Ejemplos
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-play-circle"></i>
+                                Resolver
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Enlaces Adicionales -->
+            <div class="text-center mt-4">
+                <a href="/ejercicios/height-checker" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Height Checker
+                </a>
+                <a href="/ejercicios/insertion-sort" class="btn btn-outline-success me-2">
+                    <i class="bi bi-arrow-right"></i>
+                    Probar Insertion Sort
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function seleccionarEjemplo(nums, target) {
+    document.getElementById('nums').value = nums;
+    document.getElementById('target').value = target;
+    document.getElementById('ejemplo').value = '';
+}
+</script>
+{% endblock %} 
